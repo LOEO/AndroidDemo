@@ -1,0 +1,16 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!--actionbar的颜色-->
+        <item name="colorPrimary">#03a9f4</item>
+        <!--状态栏的颜色-->
+        <item name="colorPrimaryDark">#00ffff</item>
+        <!--button，radio等控件选中的颜色-->
+        <item name="colorAccent">#ff00ff</item>
+    </style>
+
+    <style name="MyTheme" parent="android:Theme.Material"></style>
+
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/libs/cordova-2.8.1.jar" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/res/xml/config.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/leo/WebView/BFragment.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/leo/WebView/BaseFragment.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/leo/WebView/CordovaContext.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/leo/WebView/WebViewActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/leo/WebView/WebViewClient.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/leo/WebView/WebViewFragment.java" charset="UTF-8" />
+  </component>
+</project>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res/com.leo.test"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        >
+    <com.leo.test.MyTitleBar android:layout_width="match_parent"
+                             android:layout_height="40dp"
+                             android:id="@+id/titleBar"
+                             app:leftText="返回"
+                             app:leftTextColor="#FFFFFF"
+                             app:leftBackground="#00FFFF"
+                             app:rightText="菜单"
+                             app:rightTextColor="#FFFFFF"
+                             app:rightBackground="#00FFFF"
+                             app:titleBackground="#00FFFF"
+                             app:titleSize="15dp"
+                             app:titleText="标题"
+            >
+
+    </com.leo.test.MyTitleBar>
+</LinearLayout>
+

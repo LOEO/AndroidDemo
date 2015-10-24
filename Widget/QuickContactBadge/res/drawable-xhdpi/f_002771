@@ -1,0 +1,541 @@
+t/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v3}, Lnet/oschina/app/bean/Software;->getLanguage()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    .line 211
+    iget-object v2, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mTvOs:Landroid/widget/TextView;
+
+    iget-object v3, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v3}, Lnet/oschina/app/bean/Software;->getOs()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    .line 212
+    iget-object v2, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mTvRecordTime:Landroid/widget/TextView;
+
+    iget-object v3, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v3}, Lnet/oschina/app/bean/Software;->getRecordtime()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    .line 213
+    iget-object v2, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mToolBarFragment:Lnet/oschina/app/fragment/ToolbarFragment;
+
+    if-eqz v2, :cond_1
+
+    .line 214
+    iget-object v2, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mToolBarFragment:Lnet/oschina/app/fragment/ToolbarFragment;
+
+    iget-object v3, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v3}, Lnet/oschina/app/bean/Software;->getTweetCount()I
+
+    move-result v3
+
+    invoke-virtual {v2, v3}, Lnet/oschina/app/fragment/ToolbarFragment;->setCommentCount(I)V
+
+    .line 216
+    :cond_1
+    invoke-static {}, Lorg/kymjs/kjframe/KJBitmap;->create()Lorg/kymjs/kjframe/KJBitmap;
+
+    move-result-object v2
+
+    iget-object v3, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mIvLogo:Landroid/widget/ImageView;
+
+    iget-object v4, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v4}, Lnet/oschina/app/bean/Software;->getLogo()Ljava/lang/String;
+
+    move-result-object v4
+
+    .line 217
+    const v5, 0x7f020242
+
+    .line 216
+    invoke-virtual {v2, v3, v4, v5}, Lorg/kymjs/kjframe/KJBitmap;->display(Landroid/view/View;Ljava/lang/String;I)V
+
+    .line 218
+    iget-object v2, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v2}, Lnet/oschina/app/bean/Software;->getFavorite()I
+
+    move-result v2
+
+    if-ne v2, v0, :cond_3
+
+    :goto_1
+    invoke-virtual {p0, v0}, Lnet/oschina/app/fragment/SoftwareDetailFragment;->notifyFavorite(Z)V
+
+    .line 219
+    return-void
+
+    .line 200
+    :cond_2
+    iget-object v2, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->llAuthor:Landroid/view/View;
+
+    invoke-virtual {v2, v3}, Landroid/view/View;->setVisibility(I)V
+
+    .line 201
+    iget-object v2, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->lineAuthor:Landroid/view/View;
+
+    invoke-virtual {v2, v3}, Landroid/view/View;->setVisibility(I)V
+
+    goto :goto_0
+
+    :cond_3
+    move v0, v1
+
+    .line 218
+    goto :goto_1
+.end method
+
+.method private fillWebViewBody()V
+    .locals 7
+
+    .prologue
+    const/4 v1, 0x0
+
+    .line 222
+    new-instance v6, Ljava/lang/StringBuffer;
+
+    .line 223
+    iget-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v0}, Lnet/oschina/app/bean/Software;->getBody()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-static {v0}, Lnet/oschina/app/util/UIHelper;->setHtmlCotentSupportImagePreview(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 222
+    invoke-direct {v6, v0}, Ljava/lang/StringBuffer;-><init>(Ljava/lang/String;)V
+
+    .line 224
+    .local v6, body:Ljava/lang/StringBuffer;
+    const-string v0, "<script type=\"text/javascript\" src=\"file:///android_asset/shCore.js\"></script><script type=\"text/javascript\" src=\"file:///android_asset/brush.js\"></script><script type=\"text/javascript\" src=\"file:///android_asset/client.js\"></script><link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/shThemeDefault.css\"><link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/shCore.css\"><script type=\"text/javascript\">SyntaxHighlighter.all();</script><script type=\"text/javascript\">function showImagePreview(var url){window.location.url= url;}</script><style>* {font-size:16px;line-height:20px;} p {color:#333;} a {color:#3E62A6;} img {max-width:310px;} img.alignleft {float:left;max-width:120px;margin:0 10px 5px 0;border:1px solid #ccc;background:#fff;padding:2px;} pre {font-size:9pt;line-height:12pt;font-family:Courier New,Arial;border:1px solid #ddd;border-left:5px solid #6CE26C;background:#f6f6f6;padding:5px;overflow: auto;} a.tag {font-size:15px;text-decoration:none;background-color:#cfc;color:#060;border-bottom:1px solid #B1D3EB;border-right:1px solid #B1D3EB;color:#3E6D8E;margin:2px 2px 2px 0;padding:2px 4px;white-space:nowrap;position:relative}</style>"
+
+    invoke-virtual {v6, v0}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+
+    move-result-object v0
+
+    const-string v2, "<script type=\"text/javascript\"> var allImgUrls = getAllImgSrc(document.body.innerHTML);</script>"
+
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuffer;->append(Ljava/lang/String;)Ljava/lang/StringBuffer;
+
+    .line 225
+    iget-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mWebView:Landroid/webkit/WebView;
+
+    invoke-virtual {v6}, Ljava/lang/StringBuffer;->toString()Ljava/lang/String;
+
+    move-result-object v2
+
+    const-string v3, "text/html"
+
+    .line 226
+    const-string v4, "utf-8"
+
+    move-object v5, v1
+
+    .line 225
+    invoke-virtual/range {v0 .. v5}, Landroid/webkit/WebView;->loadDataWithBaseURL(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 227
+    return-void
+.end method
+
+.method private initViews(Landroid/view/View;)V
+    .locals 1
+    .parameter "view"
+
+    .prologue
+    .line 156
+    const v0, 0x7f0c006f
+
+    invoke-virtual {p1, v0}, Landroid/view/View;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    check-cast v0, Lnet/oschina/app/ui/empty/EmptyLayout;
+
+    iput-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mEmptyLayout:Lnet/oschina/app/ui/empty/EmptyLayout;
+
+    .line 158
+    iget-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mWebView:Landroid/webkit/WebView;
+
+    invoke-static {v0}, Lnet/oschina/app/util/UIHelper;->initWebView(Landroid/webkit/WebView;)V
+
+    .line 160
+    const v0, 0x7f0c0139
+
+    invoke-virtual {p1, v0}, Landroid/view/View;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    invoke-virtual {v0, p0}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    .line 161
+    const v0, 0x7f0c013a
+
+    invoke-virtual {p1, v0}, Landroid/view/View;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    invoke-virtual {v0, p0}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    .line 162
+    const v0, 0x7f0c013b
+
+    invoke-virtual {p1, v0}, Landroid/view/View;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    invoke-virtual {v0, p0}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    .line 163
+    iget-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mTvAuthor:Landroid/widget/TextView;
+
+    invoke-virtual {v0, p0}, Landroid/widget/TextView;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    .line 164
+    return-void
+.end method
+
+
+# virtual methods
+.method protected commentPubSuccess(Lnet/oschina/app/bean/Comment;)V
+    .locals 1
+    .parameter "comment"
+
+    .prologue
+    .line 333
+    invoke-super {p0, p1}, Lnet/oschina/app/base/BaseDetailFragment;->commentPubSuccess(Lnet/oschina/app/bean/Comment;)V
+
+    .line 334
+    iget-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mEmojiFragment:Lnet/oschina/app/emoji/EmojiFragment;
+
+    invoke-virtual {v0}, Lnet/oschina/app/emoji/EmojiFragment;->reset()V
+
+    .line 335
+    return-void
+.end method
+
+.method protected executeOnLoadDataSuccess(Lnet/oschina/app/bean/Entity;)V
+    .locals 0
+    .parameter "entity"
+
+    .prologue
+    .line 189
+    check-cast p1, Lnet/oschina/app/bean/Software;
+
+    .end local p1
+    iput-object p1, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    .line 190
+    invoke-direct {p0}, Lnet/oschina/app/fragment/SoftwareDetailFragment;->fillUI()V
+
+    .line 191
+    invoke-direct {p0}, Lnet/oschina/app/fragment/SoftwareDetailFragment;->fillWebViewBody()V
+
+    .line 192
+    return-void
+.end method
+
+.method protected getCacheKey()Ljava/lang/String;
+    .locals 2
+
+    .prologue
+    .line 168
+    new-instance v0, Ljava/lang/StringBuilder;
+
+    const-string v1, "software_"
+
+    invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    iget-object v1, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mIdent:Ljava/lang/String;
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    return-object v0
+.end method
+
+.method protected getFavoriteTargetId()I
+    .locals 1
+
+    .prologue
+    .line 281
+    iget-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    if-eqz v0, :cond_0
+
+    iget-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v0}, Lnet/oschina/app/bean/Software;->getId()I
+
+    move-result v0
+
+    :goto_0
+    return v0
+
+    :cond_0
+    const/4 v0, -0x1
+
+    goto :goto_0
+.end method
+
+.method protected getFavoriteTargetType()I
+    .locals 1
+
+    .prologue
+    .line 286
+    iget-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    if-eqz v0, :cond_0
+
+    const/4 v0, 0x1
+
+    :goto_0
+    return v0
+
+    :cond_0
+    const/4 v0, -0x1
+
+    goto :goto_0
+.end method
+
+.method protected getShareContent()Ljava/lang/String;
+    .locals 3
+
+    .prologue
+    .line 296
+    iget-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    if-eqz v0, :cond_0
+
+    const/4 v0, 0x0
+
+    const/16 v1, 0x32
+
+    iget-object v2, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v2}, Lnet/oschina/app/bean/Software;->getBody()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {p0, v2}, Lnet/oschina/app/fragment/SoftwareDetailFragment;->getFilterHtmlBody(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-static {v0, v1, v2}, Lnet/oschina/app/util/StringUtils;->getSubString(IILjava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    :goto_0
+    return-object v0
+
+    :cond_0
+    const-string v0, ""
+
+    goto :goto_0
+.end method
+
+.method protected getShareTitle()Ljava/lang/String;
+    .locals 1
+
+    .prologue
+    .line 291
+    iget-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    if-eqz v0, :cond_0
+
+    iget-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v0}, Lnet/oschina/app/bean/Software;->getTitle()Ljava/lang/String;
+
+    move-result-object v0
+
+    :goto_0
+    return-object v0
+
+    :cond_0
+    const v0, 0x7f0b00b1
+
+    invoke-virtual {p0, v0}, Lnet/oschina/app/fragment/SoftwareDetailFragment;->getString(I)Ljava/lang/String;
+
+    move-result-object v0
+
+    goto :goto_0
+.end method
+
+.method protected getShareUrl()Ljava/lang/String;
+    .locals 3
+
+    .prologue
+    .line 301
+    iget-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    if-eqz v0, :cond_0
+
+    iget-object v0, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v0}, Lnet/oschina/app/bean/Software;->getUrl()Ljava/lang/String;
+
+    move-result-object v0
+
+    const-string v1, "http://www"
+
+    .line 302
+    const-string v2, "http://m"
+
+    .line 301
+    invoke-virtual {v0, v1, v2}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+
+    move-result-object v0
+
+    :goto_0
+    return-object v0
+
+    .line 302
+    :cond_0
+    const-string v0, ""
+
+    goto :goto_0
+.end method
+
+.method public onClick(Landroid/view/View;)V
+    .locals 3
+    .parameter "v"
+
+    .prologue
+    .line 231
+    invoke-virtual {p1}, Landroid/view/View;->getId()I
+
+    move-result v0
+
+    packed-switch v0, :pswitch_data_0
+
+    .line 248
+    :goto_0
+    :pswitch_0
+    return-void
+
+    .line 233
+    :pswitch_1
+    invoke-virtual {p1}, Landroid/view/View;->getContext()Landroid/content/Context;
+
+    move-result-object v0
+
+    iget-object v1, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v1}, Lnet/oschina/app/bean/Software;->getHomepage()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Lnet/oschina/app/util/UIHelper;->openBrowser(Landroid/content/Context;Ljava/lang/String;)V
+
+    goto :goto_0
+
+    .line 236
+    :pswitch_2
+    invoke-virtual {p1}, Landroid/view/View;->getContext()Landroid/content/Context;
+
+    move-result-object v0
+
+    iget-object v1, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v1}, Lnet/oschina/app/bean/Software;->getDownload()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Lnet/oschina/app/util/UIHelper;->openBrowser(Landroid/content/Context;Ljava/lang/String;)V
+
+    goto :goto_0
+
+    .line 239
+    :pswitch_3
+    invoke-virtual {p1}, Landroid/view/View;->getContext()Landroid/content/Context;
+
+    move-result-object v0
+
+    iget-object v1, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v1}, Lnet/oschina/app/bean/Software;->getDocument()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Lnet/oschina/app/util/UIHelper;->openBrowser(Landroid/content/Context;Ljava/lang/String;)V
+
+    goto :goto_0
+
+    .line 242
+    :pswitch_4
+    invoke-virtual {p0}, Lnet/oschina/app/fragment/SoftwareDetailFragment;->getActivity()Landroid/support/v4/app/FragmentActivity;
+
+    move-result-object v0
+
+    iget-object v1, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v1}, Lnet/oschina/app/bean/Software;->getAuthorId()I
+
+    move-result v1
+
+    .line 243
+    iget-object v2, p0, Lnet/oschina/app/fragment/SoftwareDetailFragment;->mSoftware:Lnet/oschina/app/bean/Software;
+
+    invoke-virtual {v2}, Lnet/oschina/app/bean/Software;->getAuthor()Ljava/lang/String;
+
+    move-result-object v2
+
+    .line 242
+    invoke-static {v0, v1, v2}, Lnet/oschina/app/util/UIHelper;->showUserCenter(Landroid/content/Context;ILjava/lang/String;)V
+
+    goto :goto_0
+
+    .line 231
+    :pswitch_data_0
+    .packed-switch 0x7f0c0133
+        :pswitch_4
+        :pswitch_0
+        :pswitch_0
+        :pswitch_0
+        :pswitch_0
+        :pswitch_0
+        :pswitch_1
+        :pswitch_2
+        :pswitch_3
+    .end packed-switch
+.end method
+
+.method public onCreateView(Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Landroid/os/Bundle;)Landroid/view/View;
+    .locals 3
+    .parameter "inflater"
+    .end parameter
+    .parameter "container"
+        .annotation build Landroid/support/annotation/Nullable;
+        .end annotation
+    .end parameter
+    .parameter "savedInstanceState"
+        .annotation build Landroid/support/annotation/Nullable;
+        .end annotation
+    .end parameter
+
+    .prologue
+    .line 145
+    const v1, 0x7f

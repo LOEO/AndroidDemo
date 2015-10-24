@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        >
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="设置行间距为\n20dp"
+            android:lineSpacingExtra="20dp"
+            />
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="设置行间距为\n默认间距的1.5倍"
+            android:lineSpacingMultiplier="1.5"
+            />
+    <!--真机测试崩溃-->
+   <!-- <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="这是一个很长的文本文本文本文本文本文本文本文本文本文本文本文本文本"
+            android:ellipsize="start"
+            />
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="这是一个很长的文本文本文本文本文本文本文本文本文本文本文本文本文本"
+            android:ellipsize="middle"
+            />
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="这是一个很长的文本文本文本文本文本文本文本文本文本文本文本文本文本"
+            android:ellipsize="end"
+            />-->
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="6"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            />
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。这是一个走马灯。。。"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbarFadeDuration="2000"
+            android:maxLines="3"
+            android:focusableInTouchMode="true"
+            />
+
+</LinearLayout>
+

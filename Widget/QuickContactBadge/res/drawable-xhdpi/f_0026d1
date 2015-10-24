@@ -1,0 +1,1498 @@
+======== START OF CLASS DATA ======== -->
+
+<div id="jd-header">
+    public
+     
+    final 
+    
+    class
+<h1 itemprop="name">RealTimeMessage</h1>
+
+
+
+  
+    extends <a href="http://developer.android.com/reference/java/lang/Object.html">Object</a><br/>
+  
+  
+  
+
+  
+  
+      implements 
+      
+        <a href="http://developer.android.com/reference/android/os/Parcelable.html">Parcelable</a> 
+      
+  
+  
+
+
+    
+
+
+</div><!-- end header -->
+
+<div id="naMessage"></div>
+
+<div id="jd-content" class="api apilevel-">
+<table class="jd-inheritance-table">
+
+
+    <tr>
+         	
+        <td colspan="2" class="jd-inheritance-class-cell"><a href="http://developer.android.com/reference/java/lang/Object.html">java.lang.Object</a></td>
+    </tr>
+    
+
+    <tr>
+        
+            <td class="jd-inheritance-space">&nbsp;&nbsp;&nbsp;&#x21b3;</td>
+         	
+        <td colspan="1" class="jd-inheritance-class-cell">com.google.android.gms.games.multiplayer.realtime.RealTimeMessage</td>
+    </tr>
+    
+
+</table>
+
+
+
+
+
+
+
+<div class="jd-descr">
+
+
+<h2>Class Overview</h2>
+<p itemprop="articleBody">Message received from participants in a real-time room, which is passed to the client.
+</p>
+
+
+
+
+
+</div><!-- jd-descr -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="jd-descr">
+
+
+<h2>Summary</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- =========== ENUM CONSTANT SUMMARY =========== -->
+<table id="constants" class="jd-sumtable"><tr><th colspan="12">Constants</th></tr>
+
+
+    
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol">int</td>
+        <td class="jd-linkcol"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeMessage.html#RELIABLE">RELIABLE</a></td>
+        <td class="jd-descrcol" width="100%">
+          
+          
+    
+
+        </td>
+    </tr>
+    
+    
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol">int</td>
+        <td class="jd-linkcol"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeMessage.html#UNRELIABLE">UNRELIABLE</a></td>
+        <td class="jd-descrcol" width="100%">
+          
+          
+    
+
+        </td>
+    </tr>
+    
+    
+
+</table>
+
+
+
+
+
+<!-- =========== ENUM CONSTANT SUMMARY =========== -->
+<table id="inhconstants" class="jd-sumtable"><tr><th>
+  <a href="#" class="toggle-all" onclick="return toggleAllInherited(this, null)">[Expand]</a>
+  <div style="clear:left;">Inherited Constants</div></th></tr>
+
+
+
+
+<tr class="api apilevel-" >
+<td colspan="12">
+
+  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-constants-android.os.Parcelable" class="jd-expando-trigger closed"
+          ><img id="inherited-constants-android.os.Parcelable-trigger"
+          src="../../../../../../../../assets/images/triangle-closed.png"
+          class="jd-expando-trigger-img" /></a>From interface
+android.os.Parcelable
+<div id="inherited-constants-android.os.Parcelable">
+  <div id="inherited-constants-android.os.Parcelable-list"
+        class="jd-inheritedlinks">
+  </div>
+  <div id="inherited-constants-android.os.Parcelable-summary" style="display: none;">
+    <table class="jd-sumtable-expando">
+    
+
+    
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol">int</td>
+        <td class="jd-linkcol">CONTENTS_FILE_DESCRIPTOR</td>
+        <td class="jd-descrcol" width="100%">
+          
+          
+    
+
+        </td>
+    </tr>
+    
+    
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol">int</td>
+        <td class="jd-linkcol">PARCELABLE_WRITE_RETURN_VALUE</td>
+        <td class="jd-descrcol" width="100%">
+          
+          
+    
+
+        </td>
+    </tr>
+    
+    
+</table>
+  </div>
+</div>
+</td></tr>
+
+
+</table>
+
+
+
+
+<!-- =========== FIELD SUMMARY =========== -->
+<table id="lfields" class="jd-sumtable"><tr><th colspan="12">Fields</th></tr>
+
+
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          public
+          static
+          final
+          <a href="http://developer.android.com/reference/android/os/Parcelable.Creator.html">Creator</a>&lt;<a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeMessage.html">RealTimeMessage</a>&gt;</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeMessage.html#CREATOR">CREATOR</a></td>
+          <td class="jd-descrcol" width="100%">
+            
+            
+    
+
+          </td>
+      </tr>
+      
+    
+
+</table>
+
+
+
+
+
+
+
+
+
+
+
+<!-- ========== METHOD SUMMARY =========== -->
+<table id="pubmethods" class="jd-sumtable"><tr><th colspan="12">Public Methods</th></tr>
+
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            int</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeMessage.html#describeContents()">describeContents</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            byte[]</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeMessage.html#getMessageData()">getMessageData</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            <a href="http://developer.android.com/reference/java/lang/String.html">String</a></nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeMessage.html#getSenderParticipantId()">getSenderParticipantId</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            boolean</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeMessage.html#isReliable()">isReliable</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeMessage.html#writeToParcel(android.os.Parcel, int)">writeToParcel</a></span>(<a href="http://developer.android.com/reference/android/os/Parcel.html">Parcel</a> parcel, int flag)</nobr>
+        
+  </td></tr>
+
+
+
+</table>
+
+
+
+
+
+
+
+<!-- ========== METHOD SUMMARY =========== -->
+<table id="inhmethods" class="jd-sumtable"><tr><th>
+  <a href="#" class="toggle-all" onclick="return toggleAllInherited(this, null)">[Expand]</a>
+  <div style="clear:left;">Inherited Methods</div></th></tr>
+
+
+<tr class="api apilevel-" >
+<td colspan="12">
+  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-methods-java.lang.Object" class="jd-expando-trigger closed"
+          ><img id="inherited-methods-java.lang.Object-trigger"
+          src="../../../../../../../../assets/images/triangle-closed.png"
+          class="jd-expando-trigger-img" /></a>
+From class
+
+  <a href="http://developer.android.com/reference/java/lang/Object.html">java.lang.Object</a>
+
+<div id="inherited-methods-java.lang.Object">
+  <div id="inherited-methods-java.lang.Object-list"
+        class="jd-inheritedlinks">
+  </div>
+  <div id="inherited-methods-java.lang.Object-summary" style="display: none;">
+    <table class="jd-sumtable-expando">
+    
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            <a href="http://developer.android.com/reference/java/lang/Object.html">Object</a></nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">clone</span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            boolean</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">equals</span>(<a href="http://developer.android.com/reference/java/lang/Object.html">Object</a> arg0)</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">finalize</span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            final
+            
+            
+            <a href="http://developer.android.com/reference/java/lang/Class.html">Class</a>&lt;?&gt;</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">getClass</span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            int</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">hashCode</span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            final
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">notify</span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            final
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">notifyAll</span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            <a href="http://developer.android.com/reference/java/lang/String.html">String</a></nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">toString</span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            final
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">wait</span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            final
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">wait</span>(long arg0, int arg1)</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            final
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">wait</span>(long arg0)</nobr>
+        
+  </td></tr>
+
+
+</table>
+  </div>
+</div>
+</td></tr>
+
+
+
+<tr class="api apilevel-" >
+<td colspan="12">
+  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-methods-android.os.Parcelable" class="jd-expando-trigger closed"
+          ><img id="inherited-methods-android.os.Parcelable-trigger"
+          src="../../../../../../../../assets/images/triangle-closed.png"
+          class="jd-expando-trigger-img" /></a>
+From interface
+
+  <a href="http://developer.android.com/reference/android/os/Parcelable.html">android.os.Parcelable</a>
+
+<div id="inherited-methods-android.os.Parcelable">
+  <div id="inherited-methods-android.os.Parcelable-list"
+        class="jd-inheritedlinks">
+  </div>
+  <div id="inherited-methods-android.os.Parcelable-summary" style="display: none;">
+    <table class="jd-sumtable-expando">
+    
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            abstract
+            
+            
+            
+            
+            int</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">describeContents</span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            abstract
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">writeToParcel</span>(<a href="http://developer.android.com/reference/android/os/Parcel.html">Parcel</a> arg0, int arg1)</nobr>
+        
+  </td></tr>
+
+
+</table>
+  </div>
+</div>
+</td></tr>
+
+
+</table>
+
+
+</div><!-- jd-descr (summary) -->
+
+<!-- Details -->
+
+
+
+
+
+
+
+
+<!-- XML Attributes -->
+
+
+<!-- Enum Values -->
+
+
+<!-- Constants -->
+
+
+<!-- ========= ENUM CONSTANTS DETAIL ======== -->
+<h2>Constants</h2>
+
+
+
+
+<A NAME="RELIABLE"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+        static 
+        final 
+        int
+      </span>
+        RELIABLE
+    </h4>
+      <div class="api-level">
+        
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+    
+
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+        <div class="jd-tagdata">
+        <span class="jd-tagtitle">Constant Value: </span>
+        <span>
+            
+                1
+                (0x00000001)
+            
+        </span>
+        </div>
+    
+    </div>
+</div>
+
+
+
+<A NAME="UNRELIABLE"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+        static 
+        final 
+        int
+      </span>
+        UNRELIABLE
+    </h4>
+      <div class="api-level">
+        
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+    
+
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+        <div class="jd-tagdata">
+        <span class="jd-tagtitle">Constant Value: </span>
+        <span>
+            
+                0
+                (0x00000000)
+            
+        </span>
+        </div>
+    
+    </div>
+</div>
+
+
+
+
+<!-- Fields -->
+
+
+<!-- ========= FIELD DETAIL ======== -->
+<h2>Fields</h2>
+
+
+
+
+<A NAME="CREATOR"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+        static 
+        final 
+        <a href="http://developer.android.com/reference/android/os/Parcelable.Creator.html">Creator</a>&lt;<a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeMessage.html">RealTimeMessage</a>&gt;
+      </span>
+        CREATOR
+    </h4>
+      <div class="api-level">
+        
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+    
+
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+
+<!-- Public ctors -->
+
+
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<!-- Protected ctors -->
+
+
+
+<!-- ========= METHOD DETAIL ======== -->
+<!-- Public methdos -->
+
+<h2>Public Methods</h2>
+
+
+
+<A NAME="describeContents()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        int
+      </span>
+      <span class="sympad">describeContents</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div></div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+    
+
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    </div>
+</div>
+
+
+<A NAME="getMessageData()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        byte[]
+      </span>
+      <span class="sympad">getMessageData</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div></div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+    
+
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Returns</h5>
+      <ul class="nolist"><li>The message data.
+</li></ul>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="getSenderParticipantId()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        <a href="http://developer.android.com/reference/java/lang/String.html">String</a>
+      </span>
+      <span class="sympad">getSenderParticipantId</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div></div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+    
+
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Returns</h5>
+      <ul class="nolist"><li>The participant ID of the message sender.
+</li></ul>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="isReliable()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        boolean
+      </span>
+      <span class="sympad">isReliable</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div></div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+    
+
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Returns</h5>
+      <ul class="nolist"><li>Whether this message was sent over a reliable channel.
+</li></ul>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="writeToParcel(android.os.Parcel, int)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">writeToParcel</span>
+      <span class="normal">(<a href="http://developer.android.com/reference/android/os/Parcel.html">Parcel</a> parcel, int flag)</span>
+    </h4>
+      <div class="api-level">
+        <div></div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+    
+
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    </div>
+</div>
+
+
+
+
+
+<!-- ========= METHOD DETAIL ======== -->
+
+
+
+<!-- ========= END OF CLASS DATA ========= -->
+<A NAME="navbar_top"></A>
+
+<div id="footer" class="wrap" >
+        
+
+  <div id="copyright">
+    
+  Except as noted, this content is licensed under <a
+  href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a>. 
+  For details and restrictions, see the <a href="../../../../../../../../license.html">
+  Content License</a>.
+  </div>
+  <div id="build_info">
+    
+    Android GmsCore 1961267&nbsp;r &mdash; 
+<script src="../../../../../../../../timestamp.js" type="text/javascript"></script>
+<script>document.write(BUILD_TIMESTAMP)</script>
+
+  </div>
+
+
+  <div id="footerlinks">
+    
+  <p>
+    <a href="../../../../../../../../about/index.html">About Android</a>&nbsp;&nbsp;|&nbsp;
+    <a href="../../../../../../../../legal.html">Legal</a>&nbsp;&nbsp;|&nbsp;
+    <a href="../../../../../../../../support.html">Support</a>
+  </p>
+  </div>
+
+</div> <!-- end footer -->
+</div> <!-- jd-content -->
+
+</div><!-- end doc-content -->
+
+</div> <!-- end body-content --> 
+
+
+
+
+
+
+</body>
+</html>
+                                                                                                                                                 INDX( 	 Î°X›           (   ˜  è       a   Ğn Ğa Ğ        }p    p Z     ©o    Ôàs/ÄĞäCàs/ÄĞäCàs/ÄĞÔàs/ÄĞ       Q              A B 2 4 6 4 ~ 1 . P N G _ p a àp    p Z     ©o    ĞÜës/ÄĞàìs/ÄĞàìs/ÄĞĞÜës/ÄĞ       Y              A B 3 8 6 4 ~ 1 . P N G _ p a gp    p Z     ©o    FsÜs/ÄĞWšÜs/ÄĞWšÜs/ÄĞFsÜs/ÄĞˆ       ˆ               A B 4 B F 4 ~ 1 . P N G _ p a p    p Z     ©o    S$Ós/ÄĞdKÓs/ÄĞdKÓs/ÄĞS$Ós/ÄĞ        ›               A B 6 1 F 1 ~ 1 . P N G _ p  sp    p Z     ©o    HŞs/ÄĞoŞs/ÄĞoŞs/ÄĞHŞs/ÄĞP      J              A B 7 5 8 C ~ 1 . P N G _ p a Mp    p Z     ©o    Ùs/ÄĞ,ÛÙs/ÄĞ,ÛÙs/ÄĞÙs/ÄĞ                    A B 7 E E 7 ~ 1 . P N G _ p a lp    p Z     ©o    ˆİs/ÄĞ?½Şs/ÄĞ?½Şs/ÄĞˆİs/ÄĞx      s              A B 9 5 3 A ~ 1 . P N G _ p a „p    p Z     ©o    'ààs/ÄĞ7ás/ÄĞ7ás/ÄĞ'ààs/ÄĞH      C              A B B B 3 6 ~ 1 . P N G _ p a fp    p Z     ©o    FsÜs/ÄĞWšÜs/ÄĞWšÜs/ÄĞFsÜs/ÄĞ                      A B C F 5 7 ~ 1 . P N G _ p a Jp    ˜ „     ©o    ê>Ùs/ÄĞûeÙs/ÄĞûeÙs/ÄĞê>Ùs/ÄĞ       ;              !a b c _ a b _ s h a r e _ p a c k _ h o l o _ d a r k . 9 . p n g g   ¬o    ˜ †     ©o    ôyÆs/ÄĞ¡Æs/ÄĞ¡Æs/ÄĞôyÆs/ÄĞ       5              "a b c _ a b _ s h a r e _ p a c k _ h o l o _ l i g h t . 9 . p n g   ¬o    p Z     ©o    ôyÆs/ÄĞ¡Æs/ÄĞ¡Æs/ÄĞôyÆs/ÄĞ       5              A B C _ A B ~ 1 . P N G s s e Jp    p Z     ©o    ê>Ùs/ÄĞûeÙs/ÄĞûeÙs/Ä ê>Ùs/ÄĞ       ;              A B C _ A B ~ 2 . P N G k _ t âo    ˜ ‚     ©o    Í0Ís/ÄĞİWÍs/ÄĞİWÍs/ÄĞÍ0Ís/ÄĞ       Ï               a b c _ b t n _ c h e c k _ t o _ o n _ m t r l _ 0 0 0 . p n g a . 9 ïo    ˜ ‚     ©o    s·Îs/ÄĞƒŞÎs/ÄĞƒŞÎs/ÄĞs·Îs/ÄĞ                      a b c _ b t n _ c h e c k _ t o _ o n _ m t r l _ 0 1 5 . p n g Ès/ÄĞ»p    ˜ ‚     ©o    !åçs/ÄĞ¦és/ÄĞ¦és/ÄĞ!åçs/ÄĞ       ­               a b c _ b t n _ r a d i o _ t o _ o n _ m t r l _ 0 0 0 . p  g 9 . p Âp    ˜ ‚     ©o    t¨ès/ÄĞ„Ïès/ÄĞ„Ïès/ÄĞt¨ès/ÄĞ                      a b c _ b t n _ r a d i o _ t o _ o n _ m t r l _ 0 1 5 . p n g 9 . p µp      Œ     ©o    Î!çs/ÄĞßHçs/ÄĞßHçs/ÄĞÎ!çs/ÄĞ P      HF              %a b c _ b t n _ s w i t c h _ t o _ o n _ m t r l _ 0 0 0 0 1 . 9 . p n g /ÄĞÀp      Œ     ©o    cès/ÄĞt¨ès/ÄĞt¨ès/ÄĞcès/ÄĞ P      ÖF              %a b c _ b t n _ s w i t c h _ t o _ o n _ m t r l _ 0 0 0 1 2 . 9 . p n g /ÄĞâo    p Z     ©o    Í0Ís/Ä İWÍs/ÄĞİWÍs/ÄĞÍ0Ís/ÄĞ       Ï              A B C _ B T ~ 1 . P N G g r o ïo    p Z     ©o    s·Îs/ÄĞƒŞÎs/ÄĞƒŞÎs/ÄĞs·Îs/ÄĞ                     A B C _ B T ~ 2 . P N G g r o µp    p Z     ©o    Î!çs/ÄĞßHçs/ÄĞßHçs/ÄĞÎ!çs/ÄĞ P      HF              A B C _ B T ~ 3 . P N G c k _ »p    p Z     ©o    !åçs/ÄĞ¦és/ÄĞ¦és/ÄĞ!åçs/ÄĞ       ­              A B C _ B T ~ 4 . P N G a b c               Q              a b c _ i c _ m e n u _ c u t _ m t r l _ a l p h a . p n g  Mp           ©o    Ùs/ÄĞ,ÛÙs/ÄĞ,ÛÙs/ÄĞÙs/ÄĞ                    'a b c _ i c _ m e n u _ m o r e o v e r f l o w _ m t r l _ a l p h a . p n g p   	 ˜ ˆ     ©o    kÑs/ÄĞ|(Ñs/ÄĞ|(Ñs/ÄĞkÑs/ÄĞp      k              #a b c _ i c _ m e n u _ p a s t e _ m t r l _ a m _ a l p h a . p n g „p      Š     ©o    'ààs/ÄĞ'ààs/ÄĞ'ààs/ÄĞ'ààs/ÄĞ                        $a b c _ i c _ m e n u _ s e l e c t a l l _ m t r l _ a l p h a . p n g     óo    ˜ ‚     ©o    ”Ïs/ÄĞ¤,Ïs/Ä ¤,Ïs/ÄĞ”Ïs/ÄĞ       ]               a b c _ i c _ s e a r c h _ a p i _ m t r l _ a l p h a . p n g Æs/ÄĞôo           ©o    ”Ïs/ÄĞkÑs/ÄĞkÑs/ÄĞ”Ïs/ÄĞ(      '              &a b c _ i c _ v o i c e _ s e a r c h _ a p i _ m t r l _ a l p h a . p n g Ğæo    p Z     ©o    ÿ¥Ís/ÄĞ ôÍs/ÄĞ ôÍs/ÄĞÿ¥Ís/ÄĞ                     A B C _ I C ~ 1 . P N G s s e óo    p Z     ©o    ”Ïs/ÄĞ¤,Ïs/ÄĞ¤,Ïs/ÄĞ”Ïs/ÄĞ       ]              A B C _ I C ~ 2 . P N G s s e              INDX( 	 5X›           (   H
+  è       t   ĞĞ    s         Ğp    p Z     ´o    *Vês/ÄĞ;}ês/ÄĞ;}ês/ÄĞ*Vês/ÄĞ       D              A B 2 4 6 4 ~ 1 . P N G o _ t ¼p    p Z     ´o    !åçs/ÄĞB3ès/ÄĞB3ès/ÄĞ!åçs/ÄĞ       º              A B 2 A C 4 ~ 1 . P N G o _ t ‚p    p Z     ´o    õjàs/ÄĞ¹às/ÄĞ¹às/ÄĞõjàs/ÄĞ0      -              A B 3 7 E D ~ 1 . P N G o _ t {p    p Z     ´o    ¢§ßs/ÄĞÃõßs/ÄĞÃõßs/ÄĞ¢§ßs/ÄĞ                     A B 6 0 0 6 ~ 1 . P N G o _  ÿo    p Z     ´o    9ŒĞs/ÄĞ[ÚĞs/ÄĞ[ÚĞs/ÄĞ9ŒĞs/ÄĞ°       ¬               A B 6 1 F 1 ~ 1 . P N G o _ t %p    p Z     ´o    ¦çÓs/ÄĞ¯XÖs/ÄĞ¯XÖs/ÄĞ¦çÓs/ÄĞ¸      ´              A B 7 5 8 C ~ 1 . P N G o _ t ±p   	 p Z     ´o    œ¬æs/ÄĞ­Óæs/ÄĞ­Óæs/ÄĞœ¬æs/ÄĞ8      8              A B 7 E E 7 ~ 1 . P N G o _ t cp    p Z     ´o    şÛs/ÄĞ5LÜs/ÄĞ5LÜs/ÄĞşÛs/ÄĞğ      ï              A B 9 5 3 A ~ 1 . P N G o _ t ¸p    p Z     ´o    ïoçs/ÄĞ¾çs/ÄĞ¾çs/ÄĞïoçs/ÄĞ      6              A B C 6 7 A ~ 1 . P N G o _ t øo    p Z     ´o    Ö¡Ïs/ÄĞ[ÚĞs/ÄĞ[ÚĞs/ÄĞÖ¡Ïs/ÄĞè      è              A B C F 0 A ~ 1 . P N G o _ t ¶p    ˜ „     ´o    ßHçs/ÄĞïoçs/ÄĞïoçs/ÄĞßHçs/ÄĞH      F              !a b c _ a b _ s h a r e _ p a c k _ h o l o _ d a r k . 9 . p n g g   p    ˜ †     ´o    trÓs/ÄĞ…™Ós/ÄĞ…™Ós/ÄĞtrÓs/ÄĞ@      <              "a b c _ a b _ s h a r e _ p a c k _ h o l o _ l i g h t . 9 . p n g   p    p Z     ´o    trÓs/ÄĞ…™Ós/ÄĞ…™Ós/Ä trÓs/ÄĞ@      <              A B C _ A B ~ 1 . P N G o _ t ¶p    p Z     ´o    ßHçs/ÄĞïoçs/ÄĞïoçs/ÄĞßHçs/ÄĞH      F              A B C _ A B ~ 2 . P N G o _ t ¸p    ˜ ‚     ´o    ïoçs/ÄĞ¾çs/ÄĞ¾çs/ÄĞïoçs/ÄĞ       6               a b c _ b t n _ c h e c k _ t o _ o n _ m t r l _ 0 0 0 . p n g       ¼p    ˜ ‚     ´o    !åçs/ÄĞB3ès/ÄĞB3ès/ÄĞ!åçs/ÄĞ       º               a b c _ b t n _ c h e c k _ t o _ o n _ m t r l _ 0 1 5 . p n g       »o    ˜ ‚     ´o    ™ Ès/Ä ’JÊs/ÄĞ’JÊs/ÄĞ™ Ès/ÄĞ                      a b c _ b t n _ r a d i o _ t o _ o n _ m t r l _ 0 0 0 . p n g       µo    ˜ ‚     ´o    WdÇs/ÄĞh‹Çs/ÄĞh‹Çs/ÄĞWdÇs/ÄĞ                      a b c _ b t n _ r a d i o _ t o _ o n _ m t r l _ 0 1 5 . p n g       ‘p      Œ     ´o    ›ñás/ÄĞ¼?âs/ÄĞ¼?âs/ÄĞ›ñás/ÄĞ P      qK              %a b c _ b t n _ s w i t c h _ t o _ o n _ m t r l _ 0 0 0 0 1 . 9 . p n g /ÄĞyp      Œ     ´o    ’€ßs/ÄĞ¢§ßs/ÄĞ¢§ßs/ÄĞ’€ßs/ÄĞ P      N             %a b c _ b t n _ s w i t c h _ t o _ o n _ m t r l _ 0 0 0 1 2 . 9 . p n g /ÄĞ              |(Ñs/ÄĞ¸       ¶               A B C _ C A ~ 1 . P N G c k _ ¶o    ˜ ‚     ´o    WdÇs/ÄĞh‹Çs/ÄĞh‹Çs/ÄĞWdÇs/ÄĞ       œ               a b c _ i c _ a b _ b a c k _ m t r l _ a m _ a l p h a . p n g       cp    ˆ x     ´o    şÛs/ÄĞ5LÜs/ÄĞ5LÜs/ÄĞşÛs/ÄĞğ      ï              a b c _ i c _ c l e a r _ m t r l _ a l p h a . p n g ÿo    ˜ ˆ     ´o    9ŒĞs/ÄĞ[ÚĞs/ÄĞ[ÚĞs/ÄĞ9ŒĞs/ÄĞ°      ¬               #a b c _ i c _ g o _ s e a r c h _ a p i _ m t r l _ a l p h a . p n g %p    ˜ †     ´o    ¦çÓs/ÄĞ¯XÖs/ÄĞ¯XÖs/ÄĞ¦çÓs/ÄĞ¸      ´              "a b c _ i c _ m e n u _ c o p y _ m t r l _ a m _ a l p h a . p n g g ±p   	        ´o    œ¬æs/ÄĞ­Óæs/ÄĞ­Óæs/ÄĞœ¬æs/ÄĞ8      8              'a b c _ i c _ m e n u _ m o r e o v e r f l o w _ m t r l _ a l p h a . p n g øo    ˜ ˆ     ´o    Ö¡Ïs/ÄĞ[ÚĞs/ÄĞ[ÚĞs/ÄĞÖ¡Ïs/ÄĞè      è              #a b c _ i c _ m e n u _ p a  t e _ m t r l _ a m _ a l p h a . p n g áo      Š     ´o    ¬âÌs/ÄĞABÎs/ÄĞABÎs/ÄĞ¬âÌs/ÄĞ¨      ¥              $a b c _ i c _ m e n u _ s e l e c t a l l _ m t r l _ a l p h a . p n g     Ïo    ˜ ‚     ´o    ’JÊs/ÄĞ£qÊs/ÄĞ£qÊs/ÄĞ’JÊs/ÄĞ       g               a b c _ i c _ m e n u _ s h a r e _ m t r l _ a l p h a . p n g                     7 8 7 ~ 1 . P N G                                                                                                                            <?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/E:/MyProject/Android/OpenSource/material-master/lib/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.2/res/values-ka-rGE/values.xml -->
+    <eat-comment/>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"áƒ›áƒ—áƒáƒ•áƒáƒ áƒ–áƒ” áƒœáƒáƒ•áƒ˜áƒ’áƒáƒªáƒ˜áƒ"</string>
+    <string msgid="1397052879051804371" name="abc_action_bar_home_description_format">"%1$s, %2$s"</string>
+    <string msgid="6623331958280229229" name="abc_action_bar_home_subtitle_description_format">"%1$s, %2$s, %3$s"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"áƒ–áƒ”áƒ›áƒáƒ— áƒœáƒáƒ•áƒ˜áƒ’áƒáƒªáƒ˜áƒ"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"áƒ›áƒ”áƒ¢áƒ˜ áƒ•áƒáƒ áƒ˜áƒáƒœáƒ¢áƒ”áƒ‘áƒ˜"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"áƒ“áƒáƒ¡áƒ áƒ£áƒšáƒ“áƒ"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"áƒ§áƒ•áƒ”áƒšáƒáƒ¡ áƒœáƒáƒ®áƒ•áƒ"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"áƒáƒáƒ˜áƒ¡ áƒáƒ áƒ©áƒ”áƒ•áƒ"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"áƒ›áƒáƒ—áƒ®áƒáƒ•áƒœáƒ˜áƒ¡ áƒ’áƒáƒ¡áƒ£áƒ¤áƒ—áƒáƒ•áƒ”áƒ‘áƒ"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"áƒ«áƒ˜áƒ”áƒ‘áƒ˜áƒ¡ áƒ›áƒáƒ—áƒ®áƒáƒ•áƒœáƒ"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"áƒ«áƒ˜áƒ”áƒ‘áƒ"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"áƒ›áƒáƒ—áƒ®áƒáƒ•áƒœáƒ˜áƒ¡ áƒ’áƒáƒ“áƒáƒ’áƒ–áƒáƒ•áƒœáƒ"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"áƒ®áƒ›áƒáƒ•áƒáƒœáƒ˜ áƒ«áƒ˜áƒ”áƒ‘áƒ"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"áƒ’áƒáƒ–áƒ˜áƒáƒ áƒ”áƒ‘áƒ:"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"%s-áƒ—áƒáƒœ áƒ’áƒáƒ–áƒ˜áƒáƒ áƒ”áƒ‘áƒ"</string>
+</resources>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           <!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html>
+<head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width" />
+
+<link rel="shortcut icon" type="image/x-icon" href="../../../../../../../../favicon.ico" />
+<title>RealTimeMessageReceivedListener | Android Developers</title>
+
+<!-- STYLESHEETS -->
+<link rel="stylesheet"
+href="http://fonts.googleapis.com/css?family=Roboto+Condensed">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:light,regular,medium,thin,italic,mediumitalic,bold"
+  title="roboto">
+<link href="../../../../../../../../assets/css/default.css?v=5" rel="stylesheet" type="text/css">
+
+
+<!-- FULLSCREEN STYLESHEET -->
+<link href="../../../../../../../../assets/css/fullscreen.css" rel="stylesheet" class="fullscreen"
+type="text/css">
+
+
+<!-- JAVASCRIPT -->
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script src="../../../../../../../../assets/js/android_3p-bundle.js" type="text/javascript"></script>
+<script type="text/javascript">
+  var toRoot = "../../../../../../../../";
+  var metaTags = [];
+  var devsite = false;
+</script>
+<script src="../../../../../../../../assets/js/docs.js?v=3" type="text/javascript"></script>
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-5831155-1', 'android.com');
+  ga('create', 'UA-49880327-2', 'android.com', {'name': 'universal'});  // New tracker);
+  ga('send', 'pageview');
+  ga('universal.send', 'pageview'); // Send page view for new tracker.
+</script>
+
+</head>
+
+<body class="gc-documentation 
+  develop reference" itemscope itemtype="http://schema.org/Article">
+  <div id="doc-api-level" class="" style="display:none"></div>
+  <a name="top"></a>
+
+
+<a name="top"></a>
+
+<!-- dialog to prompt lang pref change when loaded from hardcoded URL 
+<div id="langMessage" style="display:none">
+  <div>
+    <div class="lang en">
+      <p>You requested a page in English, would you like to proceed with this language setting?</p>
+    </div>
+    <div class="lang es">
+      <p>You requested a page in Spanish (EspaÃ±ol), would you like to proceed with this language setting?</p>
+    </div>
+    <div class="lang ja">
+      <p>You requested a page in Japanese (æ—¥æœ¬èª), would you like to proceed with this language setting?</p>
+    </div>
+    <div class="lang ko">
+      <p>You requested a page in Korean (í•œêµ­ì–´), would you like to proceed with this language setting?</p>
+    </div>
+    <div class="lang ru">
+      <p>You requested a page in Russian (Ğ ÑƒÑÑĞºĞ¸Ğ¹), would you like to proceed with this language setting?</p>
+    </div>
+    <div class="lang zh-cn">
+      <p>You requested a page in Simplified Chinese (ç®€ä½“ä¸­æ–‡), would you like to proceed with this language setting?</p>
+    </div>
+    <div class="lang zh-tw">
+      <p>You requested a page in Traditional Chinese (ç¹é«”ä¸­æ–‡), would you like to proceed with this language setting?</p>
+    </div>
+    <a href="#" class="button yes" onclick="return false;">
+      <span class="lang en">Yes</span>
+      <span class="lang es">SÃ­</span>
+      <span class="lang ja">Yes</span>
+      <span class="lang ko">Yes</span>
+      <span class="lang ru">Yes</span>
+      <span class="lang zh-cn">æ˜¯çš„</span>
+      <span class="lang zh-tw">æ²¡æœ‰</span>
+    </a>
+    <a href="#" class="button" onclick="$('#langMessage').hide();return false;">
+      <span class="lang en">No</span>
+      <span class="lang es">No</span>
+      <span class="lang ja">No</span>
+      <span class="lang ko">No</span>
+      <span class="lang ru">No</span>
+      <span class="lang zh-cn">æ²¡æœ‰</span>
+      <span class="lang zh-tw">æ²¡æœ‰</span>
+    </a>
+  </div>
+</div> -->
+
+
+  <!-- Header -->
+  <div id="header-wrapper">
+    <div id="header">
+
+    
+
+
+      <div class="wrap" id="header-wrap">
+        <div class="col-3 logo">
+          <a href="../../../../../../../../index.html">
+            <img src="../../../../../../../../assets/images/dac_logo.png"
+                srcset="../../../../../../../../assets/images/dac_logo@2x.png 2x"
+                width="123" height="25" alt="Android Developers" />
+          </a>
+          <div class="btn-quicknav" id="btn-quicknav">
+            <a href="#" class="arrow-inactive">Quicknav</a>
+            <a href="#" class="arrow-active">Quicknav</a>
+          </div>
+        </div>
+        <ul class="nav-x col-9">
+            <li class="design">
+              <a href="../../../../../../../../design/index.html"
+              zh-tw-lang="è¨­è¨ˆ"
+              zh-cn-lang="è®¾è®¡"
+              ru-lang="ĞŸÑ€Ğ¾ĞµĞºÑ‚Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¸Ğµ"
+              ko-lang="ë””ìì¸"
+              ja-lang="è¨­è¨ˆ"
+              es-lang="DiseÃ±ar"
+              >Design</a></li>
+            <li class="develop"><a href="../../../../../../../../develop/index.html"
+              zh-tw-lang="é–‹ç™¼"
+              zh-cn-lang="å¼€å‘"
+              ru-lang="Ğ Ğ°Ğ·Ñ€Ğ°Ğ±Ğ¾Ñ‚ĞºĞ°"
+              ko-lang="ê°œë°œ"
+              ja-lang="é–‹ç™º"
+              es-lang="Desarrollar"
+              >Develop</a></li>
+            <li class="distribute last"><a href="../../../../../../../../distribute/googleplay/index.html"
+              zh-tw-lang="ç™¼ä½ˆ"
+              zh-cn-lang="åˆ†å‘"
+              ru-lang="Ğ Ğ°ÑĞ¿Ñ€Ğ¾ÑÑ‚Ñ€Ğ°Ğ½ĞµĞ½Ğ¸Ğµ"
+              ko-lang="ë°°í¬"
+              ja-lang="é…å¸ƒ"
+              es-lang="Distribuir"
+              >Distribute</a></li>
+        </ul>
+
+
+        
+        
+<div class="menu-container">
+  <div class="moremenu">
+    <div id="more-btn"></div>
+  </div>
+  <div class="morehover" id="moremenu">
+    <div class="top"></div>
+    <div class="mid">
+      <div class="header">Links</div>
+      <ul>
+        <li><a href="https://play.google.com/apps/publish/" target="_googleplay">Google Play Developer Console</a></li>
+        <li><a href="http://android-developers.blogspot.com/">Android Developers Blog</a></li>
+        <li><a href="../../../../../../../../about/index.html">About Android</a></li>
+      </ul>
+      <div class="header">Android Sites</div>
+      <ul>
+        <li><a href="http://www.android.com">Android.com</a></li>
+        <li class="active"><a>Android Developers</a></li>
+        <li><a href="http://source.android.com">Android Open Source Project</a></li>
+      </ul>
+
+      
+      
+      
+      <br class="clearfix" />
+    </div><!-- end 'mid' -->
+    <div class="bottom"></div>
+  </div><!-- end 'moremenu' -->
+
+  <div class="search" id="search-container">
+    <div class="search-inner">
+      <div id="search-btn"></div>
+      <div class="left"></div>
+      <form onsubmit="return submit_search()">
+        <input id="search_autocomplete" type="text" value="" autocomplete="off" name="q"
+          onfocus="search_focus_changed(this, true)" onblur="search_focus_changed(this, false)"
+          onkeydown="return search_changed(event, true, '../../../../../../../../')"
+          onkeyup="return search_changed(event, false, '../../../../../../../../')" />
+      </form>
+      <div class="right"></div>
+      <a class="close hide">close</a>
+      <div class="left"></div>
+      <div class="right"></div>
+    </div><!-- end search-inner -->
+  </div><!-- end search-container -->
+
+  <div class="search_filtered_wrapper reference">
+    <div class="suggest-card reference no-display">
+      <ul class="search_filtered">
+      </ul>
+    </div>
+  </div>
+
+  <div class="search_filtered_wrapper docs">
+    <div class="suggest-card dummy no-display">&nbsp;</div>
+    <div class="suggest-card develop no-display">
+      <ul class="search_filtered">
+      </ul>
+      <div class="child-card guides no-display">
+      </div>
+      <div class="child-card training no-display">
+      </div>
+      <div class="child-card samples no-display">
+      </div>
+    </div>
+    <div class="suggest-card design no-display">
+      <ul class="search_filtered">
+      </ul>
+    </div>
+    <div class="suggest-card distribute no-display">
+      <ul class="search_filtered">
+      </ul>
+    </div>
+  </div>
+</div><!-- end menu-container (search and menu widget) -->
+
+
+
+        <!-- Expanded quicknav -->
+        <div id="quicknav" class="col-13">
+          <ul>
+            <li class="about">
+              <ul>
+                <li><a href="../../../../../../../../about/index.html">About</a></li>
+                <li><a href="../../../../../../../../wear/index.html">Wear</a></li>
+                <li><a href="../../../../../../../../tv/index.html">TV</a></li>
+                <li><a href="../../../../../../../../auto/index.html">Auto</a></li>
+              </ul>
+            </li>
+            <li class="design">
+              <ul>
+                <li><a href="../../../../../../../../design/index.html">Get Started</a></li>
+                <li><a href="../../../../../../../../design/devices.html">Devices</a></li>
+                <li><a href="../../../../../../../../design/style/index.html">Style</a></li>
+                <li><a href="../../../../../../../../design/patterns/index.html">Patterns</a></li>
+                <li><a href="../../../../../../../../design/building-blocks/index.html">Building Blocks</a></li>
+                <li><a href="../../../../../../../../design/downloads/index.html">Downloads</a></li>
+                <li><a href="../../../../../../../../design/videos/index.html">Videos</a></li>
+              </ul>
+            </li>
+            <li class="develop">
+              <ul>
+                <li><a href="../../../../../../../../training/index.html"
+                  zh-tw-lang="è¨“ç·´èª²ç¨‹"
+                  zh-cn-lang="åŸ¹è®­"
+                  ru-lang="ĞšÑƒÑ€ÑÑ‹"
+                  ko-lang="êµìœ¡"
+                  ja-lang="ãƒˆãƒ¬ãƒ¼ãƒ‹ãƒ³ã‚°"
+                  es-lang="CapacitaciÃ³n"
+                  >Training</a></li>
+                <li><a href="../../../../../../../../guide/index.html"
+                  zh-tw-lang="API æŒ‡å—"
+                  zh-cn-lang="API æŒ‡å—"
+                  ru-lang="Ğ ÑƒĞºĞ¾Ğ²Ğ¾Ğ´ÑÑ‚Ğ²Ğ° Ğ¿Ğ¾ API"
+                  ko-lang="API ê°€ì´ë“œ"
+                  ja-lang="API ã‚¬ã‚¤ãƒ‰"
+                  es-lang="GuÃ­as de la API"
+                  >API Guides</a></li>
+                <li><a href="../../../../../../../../reference/packages.html"
+                  zh-tw-lang="åƒè€ƒè³‡æº"
+                  zh-cn-lang="å‚è€ƒ"
+                  ru-lang="Ğ¡Ğ¿Ñ€Ğ°Ğ²Ğ¾Ñ‡Ğ½Ğ¸Ğº"
+                  ko-lang="ì°¸ì¡°ë¬¸ì„œ"
+                  ja-lang="ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹"
+                  es-lang="Referencia"
+                  >Reference</a></li>
+                <li><a href="../../../../../../../../sdk/index.html"
+                  zh-tw-lang="ç›¸é—œå·¥å…·"
+                  zh-cn-lang="å·¥å…·"
+                  ru-lang="Ğ˜Ğ½ÑÑ‚Ñ€ÑƒĞ¼ĞµĞ½Ñ‚Ñ‹"
+                  ko-lang="ë„êµ¬"
+                  ja-lang="ãƒ„ãƒ¼ãƒ«"
+                  es-lang="Herramientas"
+                  >Tools</a>
+                </li>
+                <li><a href="../../../../../../../../google/index.html">Google Services</a>
+                </li>
+                
+              </ul>
+            </li>
+            <li class="distribute last">
+              <ul>
+                <li><a href="../../../../../../../../distribute/googleplay/index.html">Google Play</a></li>
+                <li><a href="../../../../../../../../distribute/essentials/index.html">Essentials</a></li>
+                <li><a href="../../../../../../../../distribute/users/index.html">Get Users</a></li>
+                <li><a href="../../../../../../../../distribute/engage/index.html">Engage &amp; Retain</a></li>
+                <li><a href="../../../../../../../../distribute/monetize/index.html">Monetize</a></li>
+                <li><a href="../../../../../../../../distribute/analyze/index.html">Analyze</a></li>
+                <li><a href="../../../../../../../../distribute/tools/index.html">Tools &amp; Reference</a></li>
+                <li><a href="../../../../../../../../distribute/stories/index.html">Developer Stories</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /Expanded quicknav -->
+      </div><!-- end header-wrap.wrap -->
+    </div><!-- end header -->
+
+  
+    <!-- Secondary x-nav -->
+    <div id="nav-x">
+        <div class="wrap" style="position:relative;z-index:1">
+
+        
+        
+        
+
+            <ul class="nav-x col-9 develop" style="width:100%">
+                <li class="training"><a href="../../../../../../../../training/index.html"
+                  zh-tw-lang="è¨“ç·´èª²ç¨‹"
+                  zh-cn-lang="åŸ¹è®­"
+                  ru-lang="ĞšÑƒÑ€ÑÑ‹"
+                  ko-lang="êµìœ¡"
+                  ja-lang="ãƒˆãƒ¬ãƒ¼ãƒ‹ãƒ³ã‚°"
+                  es-lang="CapacitaciÃ³n"
+                  >Training</a></li>
+                <li class="guide"><a href="../../../../../../../../guide/index.html"
+                  zh-tw-lang="API æŒ‡å—"
+                  zh-cn-lang="API æŒ‡å—"
+                  ru-lang="Ğ ÑƒĞºĞ¾Ğ²Ğ¾Ğ´ÑÑ‚Ğ²Ğ° Ğ¿Ğ¾ API"
+                  ko-lang="API ê°€ì´ë“œ"
+                  ja-lang="API ã‚¬ã‚¤ãƒ‰"
+                  es-lang="GuÃ­as de la API"
+                  >API Guides</a></li>
+                <li class="reference"><a href="../../../../../../../../reference/packages.html"
+                  zh-tw-lang="åƒè€ƒè³‡æº"
+                  zh-cn-lang="å‚è€ƒ"
+                  ru-lang="Ğ¡Ğ¿Ñ€Ğ°Ğ²Ğ¾Ñ‡Ğ½Ğ¸Ğº"
+                  ko-lang="ì°¸ì¡°ë¬¸ì„œ"
+                  ja-lang="ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹"
+                  es-lang="Referencia"
+                  >Reference</a></li>
+                <li class="tools"><a href="../../../../../../../../sdk/index.html"
+                  zh-tw-lang="ç›¸é—œå·¥å…·"
+                  zh-cn-lang="å·¥å…·"
+                  ru-lang="Ğ˜Ğ½ÑÑ‚Ñ€ÑƒĞ¼ĞµĞ½Ñ‚Ñ‹"
+                  ko-lang="ë„êµ¬"
+                  ja-lang="ãƒ„ãƒ¼ãƒ«"
+                  es-lang="Herramientas"
+                  >Tools</a></li>
+                <li class="google"><a href="../../../../../../../../google/index.html"
+                  >Google Services</a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+    <!-- /Sendondary x-nav DEVELOP -->
+
+  
+
+    <div id="searchResults" class="wrap" style="display:none;">
+      <h2 id="searchTitle">Results</h2>
+      <div id="leftSearchControl" class="search-control">Loading...</div>
+    </div>
+  </div> <!--end header-wrapper -->
+
+  <div id="sticky-header">
+    <div>
+      <a class="logo" href="#top"></a>
+      <a class="top" href="#top"></a>
+      <ul class="breadcrumb">
+        
+        <li class="current">RealTimeMessageReceivedListener</li>
+      </ul>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="wrap clearfix" id="body-content">
+    <div class="col-4" id="side-nav" itemscope itemtype="http://schema.org/SiteNavigationElement">
+      <div id="devdoc-nav">
+ 

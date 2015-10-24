@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@android:id/background" >
+    <shape>
+        <corners android:radius="10dp"/>
+        <gradient android:startColor="#FFFF0000"
+                    android:centerColor="#FF880000" android:centerY="0.75"
+                  android:endColor="#FF110000" android:angle="270"
+                />
+    </shape>
+</item>
+<!--<item android:id="@android:id/secondaryProgress" android:drawable="@drawable/btn_small_green_pressed"></item>-->
+<item android:id="@android:id/progress" android:drawable="@drawable/ic_diary_canforward"></item>
+</layer-list>

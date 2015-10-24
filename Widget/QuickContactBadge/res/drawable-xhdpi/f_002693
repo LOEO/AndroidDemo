@@ -1,0 +1,1518 @@
+    for (int i=0; i<N; i++) {
+                getUidStatsLocked(newWs.get(i)).noteWifiRunningLocked();
+            }
+        } else {
+            Log.w(TAG, "noteWifiRunningChangedLocked -- called while WIFI not running");
+        }
+    }
+
+    public void noteWifiStoppedLocked(WorkSource ws) {
+        if (mGlobalWifiRunning) {
+            mHistoryCur.states &= ~HistoryItem.STATE_WIFI_RUNNING_FLAG;
+            if (DEBUG_HISTORY) Slog.v(TAG, "WIFI stopped to: "
+                    + Integer.toHexString(mHistoryCur.states));
+            addHistoryRecordLocked(SystemClock.elapsedRealtime());
+            mGlobalWifiRunning = false;
+            mGlobalWifiRunningTimer.stopRunningLocked(this);
+            int N = ws.size();
+            for (int i=0; i<N; i++) {
+                getUidStatsLocked(ws.get(i)).noteWifiStoppedLocked();
+            }
+        } else {
+            Log.w(TAG, "noteWifiStoppedLocked -- called while WIFI not running");
+        }
+    }
+
+    public void noteBluetoothOnLocked() {
+        if (!mBluetoothOn) {
+            mHistoryCur.states |= HistoryItem.STATE_BLUETOOTH_ON_FLAG;
+            if (DEBUG_HISTORY) Slog.v(TAG, "Bluetooth on to: "
+                    + Integer.toHexString(mHistoryCur.states));
+            addHistoryRecordLocked(SystemClock.elapsedRealtime());
+            mBluetoothOn = true;
+            mBluetoothOnTimer.startRunningLocked(this);
+        }
+    }
+
+    public void noteBluetoothOffLocked() {
+        if (mBluetoothOn) {
+            mHistoryCur.states &= ~HistoryItem.STATE_BLUETOOTH_ON_FLAG;
+            if (DEBUG_HISTORY) Slog.v(TAG, "Bluetooth off to: "
+                    + Integer.toHexString(mHistoryCur.states));
+            addHistoryRecordLocked(SystemClock.elapsedRealtime());
+            mBluetoothOn = false;
+            mBluetoothOnTimer.stopRunningLocked(this);
+        }
+    }
+
+    int mWifiFullLockNesting = 0;
+
+    public void noteFullWifiLockAcquiredLocked(int uid) {
+        if (mWifiFullLockNesting == 0) {
+            mHistoryCur.states |= HistoryItem.STATE_WIFI_FULL_LOCK_FLAG;
+            if (DEBUG_HISTORY) Slog.v(TAG, "WIFI full lock on to: "
+                    + Integer.toHexString(mHistoryCur.states));
+            addHistoryRecordLocked(SystemClock.elapsedRealtime());
+        }
+        mWifiFullLockNesting++;
+        getUidStatsLocked(uid).noteFullWifiLockAcquiredLocked();
+    }
+
+    public void noteFullWifiLockReleasedLocked(int uid) {
+        mWifiFullLockNesting--;
+        if (mWifiFullLockNesting == 0) {
+            mHistoryCur.states &= ~HistoryItem.STATE_WIFI_FULL_LOCK_FLAG;
+            if (DEBUG_HISTORY) Slog.v(TAG, "WIFI full lock off to: "
+                    + Integer.toHexString(mHistoryCur.states));
+            addHistoryRecordLocked(SystemClock.elapsedRealtime());
+        }
+        getUidStatsLocked(uid).noteFullWifiLockReleasedLocked();
+    }
+
+    int mWifiScanNesting = 0;
+
+    public void noteWifiScanStartedLocked(int uid) {
+        if (mWifiScanNesting == 0) {
+            mHistoryCur.states |= HistoryItem.STATE_WIFI_SCAN_FLAG;
+            if (DEBUG_HISTORY) Slog.v(TAG, "WIFI scan started for: "
+                    + Integer.toHexString(mHistoryCur.states));
+            addHistoryRecordLocked(SystemClock.elapsedRealtime());
+        }
+        mWifiScanNesting++;
+        getUidStatsLocked(uid).noteWifiScanStartedLocked();
+    }
+
+    public void noteWifiScanStoppedLocked(int uid) {
+        mWifiScanNesting--;
+        if (mWifiScanNesting == 0) {
+            mHistoryCur.states &= ~HistoryItem.STATE_WIFI_SCAN_FLAG;
+            if (DEBUG_HISTORY) Slog.v(TAG, "WIFI scan stopped for: "
+                    + Integer.toHexString(mHistoryCur.states));
+            addHistoryRecordLocked(SystemClock.elapsedRealtime());
+        }
+        getUidStatsLocked(uid).noteWifiScanStoppedLocked();
+    }
+
+    public void noteWifiBatchedScanStartedLocked(int uid, int csph) {
+        getUidStatsLocked(uid).noteWifiBatchedScanStartedLocked(csph);
+    }
+
+    public void noteWifiBatchedScanStoppedLocked(int uid) {
+        getUidStatsLocked(uid).noteWifiBatchedScanStoppedLocked();
+    }
+
+    int mWifiMulticastNesting = 0;
+
+    public void noteWifiMulticastEnabledLocked(int uid) {
+        if (mWifiMulticastNesting == 0) {
+            mHistoryCur.states |= HistoryItem.STATE_WIFI_MULTICAST_ON_FLAG;
+            if (DEBUG_HISTORY) Slog.v(TAG, "WIFI multicast on to: "
+                    + Integer.toHexString(mHistoryCur.states));
+            addHistoryRecordLocked(SystemClock.elapsedRealtime());
+        }
+        mWifiMulticastNesting++;
+        getUidStatsLocked(uid).noteWifiMulticastEnabledLocked();
+    }
+
+    public void noteWifiMulticastDisabledLocked(int uid) {
+        mWifiMulticastNesting--;
+        if (mWifiMulticastNesting == 0) {
+            mHistoryCur.states &= ~HistoryItem.STATE_WIFI_MULTICAST_ON_FLAG;
+            if (DEBUG_HISTORY) Slog.v(TAG, "WIFI multicast off to: "
+                    + Integer.toHexString(mHistoryCur.states));
+            addHistoryRecordLocked(SystemClock.elapsedRealtime());
+        }
+        getUidStatsLocked(uid).noteWifiMulticastDisabledLocked();
+    }
+
+    public void noteFullWifiLockAcquiredFromSourceLocked(WorkSource ws) {
+        int N = ws.size();
+        for (int i=0; i<N; i++) {
+            noteFullWifiLockAcquiredLocked(ws.get(i));
+        }
+    }
+
+    public void noteFullWifiLockReleasedFromSourceLocked(WorkSource ws) {
+        int N = ws.size();
+        for (int i=0; i<N; i++) {
+            noteFullWifiLockReleasedLocked(ws.get(i));
+        }
+    }
+
+    public void noteWifiScanStartedFromSourceLocked(WorkSource ws) {
+        int N = ws.size();
+        for (int i=0; i<N; i++) {
+            noteWifiScanStartedLocked(ws.get(i));
+        }
+    }
+
+    public void noteWifiScanStoppedFromSourceLocked(WorkSource ws) {
+        int N = ws.size();
+        for (int i=0; i<N; i++) {
+            noteWifiScanStoppedLocked(ws.get(i));
+        }
+    }
+
+    public void noteWifiBatchedScanStartedFromSourceLocked(WorkSource ws, int csph) {
+        int N = ws.size();
+        for (int i=0; i<N; i++) {
+            noteWifiBatchedScanStartedLocked(ws.get(i), csph);
+        }
+    }
+
+    public void noteWifiBatchedScanStoppedFromSourceLocked(WorkSource ws) {
+        int N = ws.size();
+        for (int i=0; i<N; i++) {
+            noteWifiBatchedScanStoppedLocked(ws.get(i));
+        }
+    }
+
+    public void noteWifiMulticastEnabledFromSourceLocked(WorkSource ws) {
+        int N = ws.size();
+        for (int i=0; i<N; i++) {
+            noteWifiMulticastEnabledLocked(ws.get(i));
+        }
+    }
+
+    public void noteWifiMulticastDisabledFromSourceLocked(WorkSource ws) {
+        int N = ws.size();
+        for (int i=0; i<N; i++) {
+            noteWifiMulticastDisabledLocked(ws.get(i));
+        }
+    }
+
+    public void noteNetworkInterfaceTypeLocked(String iface, int networkType) {
+        if (ConnectivityManager.isNetworkTypeMobile(networkType)) {
+            mMobileIfaces.add(iface);
+        } else {
+            mMobileIfaces.remove(iface);
+        }
+        if (ConnectivityManager.isNetworkTypeWifi(networkType)) {
+            mWifiIfaces.add(iface);
+        } else {
+            mWifiIfaces.remove(iface);
+        }
+    }
+
+    public void noteNetworkStatsEnabledLocked() {
+        // During device boot, qtaguid isn't enabled until after the inital
+        // loading of battery stats. Now that they're enabled, take our initial
+        // snapshot for future delta calculation.
+        updateNetworkActivityLocked();
+    }
+
+    @Override public long getScreenOnTime(long batteryRealtime, int which) {
+        return mScreenOnTimer.getTotalTimeLocked(batteryRealtime, which);
+    }
+
+    @Override public long getScreenBrightnessTime(int brightnessBin,
+            long batteryRealtime, int which) {
+        return mScreenBrightnessTimer[brightnessBin].getTotalTimeLocked(
+                batteryRealtime, which);
+    }
+
+    @Override public long getInteractiveTime(long batteryRealtime, int which) {
+        return mInteractiveTimer.getTotalTimeLocked(batteryRealtime, which);
+    }
+
+    @Override public long getPhoneOnTime(long batteryRealtime, int which) {
+        return mPhoneOnTimer.getTotalTimeLocked(batteryRealtime, which);
+    }
+
+    @Override public long getPhoneSignalStrengthTime(int strengthBin,
+            long batteryRealtime, int which) {
+        return mPhoneSignalStrengthsTimer[strengthBin].getTotalTimeLocked(
+                batteryRealtime, which);
+    }
+
+    @Override public long getPhoneSignalScanningTime(
+            long batteryRealtime, int which) {
+        return mPhoneSignalScanningTimer.getTotalTimeLocked(
+                batteryRealtime, which);
+    }
+
+    @Override public int getPhoneSignalStrengthCount(int strengthBin, int which) {
+        return mPhoneSignalStrengthsTimer[strengthBin].getCountLocked(which);
+    }
+
+    @Override public long getPhoneDataConnectionTime(int dataType,
+            long batteryRealtime, int which) {
+        return mPhoneDataConnectionsTimer[dataType].getTotalTimeLocked(
+                batteryRealtime, which);
+    }
+
+    @Override public int getPhoneDataConnectionCount(int dataType, int which) {
+        return mPhoneDataConnectionsTimer[dataType].getCountLocked(which);
+    }
+
+    @Override public long getWifiOnTime(long batteryRealtime, int which) {
+        return mWifiOnTimer.getTotalTimeLocked(batteryRealtime, which);
+    }
+
+    @Override public long getGlobalWifiRunningTime(long batteryRealtime, int which) {
+        return mGlobalWifiRunningTimer.getTotalTimeLocked(batteryRealtime, which);
+    }
+
+    @Override public long getBluetoothOnTime(long batteryRealtime, int which) {
+        return mBluetoothOnTimer.getTotalTimeLocked(batteryRealtime, which);
+    }
+
+    @Override
+    public long getNetworkActivityCount(int type, int which) {
+        if (type >= 0 && type < mNetworkActivityCounters.length) {
+            return mNetworkActivityCounters[type].getCountLocked(which);
+        } else {
+            return 0;
+        }
+    }
+
+    @Override public boolean getIsOnBattery() {
+        return mOnBattery;
+    }
+
+    @Override public SparseArray<? extends BatteryStats.Uid> getUidStats() {
+        return mUidStats;
+    }
+
+    /**
+     * The statistics associated with a particular uid.
+     */
+    public final class Uid extends BatteryStats.Uid {
+
+        final int mUid;
+
+        boolean mWifiRunning;
+        StopwatchTimer mWifiRunningTimer;
+
+        boolean mFullWifiLockOut;
+        StopwatchTimer mFullWifiLockTimer;
+
+        boolean mWifiScanStarted;
+        StopwatchTimer mWifiScanTimer;
+
+        private static final int NO_BATCHED_SCAN_STARTED = -1;
+        int mWifiBatchedScanBinStarted = NO_BATCHED_SCAN_STARTED;
+        StopwatchTimer[] mWifiBatchedScanTimer;
+
+        boolean mWifiMulticastEnabled;
+        StopwatchTimer mWifiMulticastTimer;
+
+        boolean mAudioTurnedOn;
+        StopwatchTimer mAudioTurnedOnTimer;
+
+        boolean mVideoTurnedOn;
+        StopwatchTimer mVideoTurnedOnTimer;
+
+        StopwatchTimer mForegroundActivityTimer;
+
+        BatchTimer mVibratorOnTimer;
+
+        Counter[] mUserActivityCounters;
+
+        LongSamplingCounter[] mNetworkActivityCounters;
+
+        /**
+         * The statistics we have collected for this uid's wake locks.
+         */
+        final HashMap<String, Wakelock> mWakelockStats = new HashMap<String, Wakelock>();
+
+        /**
+         * The statistics we have collected for this uid's sensor activations.
+         */
+        final HashMap<Integer, Sensor> mSensorStats = new HashMap<Integer, Sensor>();
+
+        /**
+         * The statistics we have collected for this uid's processes.
+         */
+        final HashMap<String, Proc> mProcessStats = new HashMap<String, Proc>();
+
+        /**
+         * The statistics we have collected for this uid's processes.
+         */
+        final HashMap<String, Pkg> mPackageStats = new HashMap<String, Pkg>();
+
+        /**
+         * The transient wake stats we have collected for this uid's pids.
+         */
+        final SparseArray<Pid> mPids = new SparseArray<Pid>();
+
+        public Uid(int uid) {
+            mUid = uid;
+            mWifiRunningTimer = new StopwatchTimer(Uid.this, WIFI_RUNNING,
+                    mWifiRunningTimers, mUnpluggables);
+            mFullWifiLockTimer = new StopwatchTimer(Uid.this, FULL_WIFI_LOCK,
+                    mFullWifiLockTimers, mUnpluggables);
+            mWifiScanTimer = new StopwatchTimer(Uid.this, WIFI_SCAN,
+                    mWifiScanTimers, mUnpluggables);
+            mWifiBatchedScanTimer = new StopwatchTimer[NUM_WIFI_BATCHED_SCAN_BINS];
+            mWifiMulticastTimer = new StopwatchTimer(Uid.this, WIFI_MULTICAST_ENABLED,
+                    mWifiMulticastTimers, mUnpluggables);
+        }
+
+        @Override
+        public Map<String, ? extends BatteryStats.Uid.Wakelock> getWakelockStats() {
+            return mWakelockStats;
+        }
+
+        @Override
+        public Map<Integer, ? extends BatteryStats.Uid.Sensor> getSensorStats() {
+            return mSensorStats;
+        }
+
+        @Override
+        public Map<String, ? extends BatteryStats.Uid.Proc> getProcessStats() {
+            return mProcessStats;
+        }
+
+        @Override
+        public Map<String, ? extends BatteryStats.Uid.Pkg> getPackageStats() {
+            return mPackageStats;
+        }
+
+        @Override
+        public int getUid() {
+            return mUid;
+        }
+
+        @Override
+        public void noteWifiRunningLocked() {
+            if (!mWifiRunning) {
+                mWifiRunning = true;
+                if (mWifiRunningTimer == null) {
+                    mWifiRunningTimer = new StopwatchTimer(Uid.this, WIFI_RUNNING,
+                            mWifiRunningTimers, mUnpluggables);
+                }
+                mWifiRunningTimer.startRunningLocked(BatteryStatsImpl.this);
+            }
+        }
+
+        @Override
+        public void noteWifiStoppedLocked() {
+            if (mWifiRunning) {
+                mWifiRunning = false;
+                mWifiRunningTimer.stopRunningLocked(BatteryStatsImpl.this);
+            }
+        }
+
+        @Override
+        public void noteFullWifiLockAcquiredLocked() {
+            if (!mFullWifiLockOut) {
+                mFullWifiLockOut = true;
+                if (mFullWifiLockTimer == null) {
+                    mFullWifiLockTimer = new StopwatchTimer(Uid.this, FULL_WIFI_LOCK,
+                            mFullWifiLockTimers, mUnpluggables);
+                }
+                mFullWifiLockTimer.startRunningLocked(BatteryStatsImpl.this);
+            }
+        }
+
+        @Override
+        public void noteFullWifiLockReleasedLocked() {
+            if (mFullWifiLockOut) {
+                mFullWifiLockOut = false;
+                mFullWifiLockTimer.stopRunningLocked(BatteryStatsImpl.this);
+            }
+        }
+
+        @Override
+        public void noteWifiScanStartedLocked() {
+            if (!mWifiScanStarted) {
+                mWifiScanStarted = true;
+                if (mWifiScanTimer == null) {
+                    mWifiScanTimer = new StopwatchTimer(Uid.this, WIFI_SCAN,
+                            mWifiScanTimers, mUnpluggables);
+                }
+                mWifiScanTimer.startRunningLocked(BatteryStatsImpl.this);
+            }
+        }
+
+        @Override
+        public void noteWifiScanStoppedLocked() {
+            if (mWifiScanStarted) {
+                mWifiScanStarted = false;
+                mWifiScanTimer.stopRunningLocked(BatteryStatsImpl.this);
+            }
+        }
+
+        @Override
+        public void noteWifiBatchedScanStartedLocked(int csph) {
+            int bin = 0;
+            while (csph > 8 && bin < NUM_WIFI_BATCHED_SCAN_BINS) {
+                csph = csph >> 3;
+                bin++;
+            }
+
+            if (mWifiBatchedScanBinStarted == bin) return;
+
+            if (mWifiBatchedScanBinStarted != NO_BATCHED_SCAN_STARTED) {
+                mWifiBatchedScanTimer[mWifiBatchedScanBinStarted].
+                        stopRunningLocked(BatteryStatsImpl.this);
+            }
+            mWifiBatchedScanBinStarted = bin;
+            if (mWifiBatchedScanTimer[bin] == null) {
+                makeWifiBatchedScanBin(bin, null);
+            }
+            mWifiBatchedScanTimer[bin].startRunningLocked(BatteryStatsImpl.this);
+        }
+
+        @Override
+        public void noteWifiBatchedScanStoppedLocked() {
+            if (mWifiBatchedScanBinStarted != NO_BATCHED_SCAN_STARTED) {
+                mWifiBatchedScanTimer[mWifiBatchedScanBinStarted].
+                        stopRunningLocked(BatteryStatsImpl.this);
+                mWifiBatchedScanBinStarted = NO_BATCHED_SCAN_STARTED;
+            }
+        }
+
+        @Override
+        public void noteWifiMulticastEnabledLocked() {
+            if (!mWifiMulticastEnabled) {
+                mWifiMulticastEnabled = true;
+                if (mWifiMulticastTimer == null) {
+                    mWifiMulticastTimer = new StopwatchTimer(Uid.this, WIFI_MULTICAST_ENABLED,
+                            mWifiMulticastTimers, mUnpluggables);
+                }
+                mWifiMulticastTimer.startRunningLocked(BatteryStatsImpl.this);
+            }
+        }
+
+        @Override
+        public void noteWifiMulticastDisabledLocked() {
+            if (mWifiMulticastEnabled) {
+                mWifiMulticastEnabled = false;
+                mWifiMulticastTimer.stopRunningLocked(BatteryStatsImpl.this);
+            }
+        }
+
+        public StopwatchTimer createAudioTurnedOnTimerLocked() {
+            if (mAudioTurnedOnTimer == null) {
+                mAudioTurnedOnTimer = new StopwatchTimer(Uid.this, AUDIO_TURNED_ON,
+                        null, mUnpluggables);
+            }
+            return mAudioTurnedOnTimer;
+        }
+
+        @Override
+        public void noteAudioTurnedOnLocked() {
+            if (!mAudioTurnedOn) {
+                mAudioTurnedOn = true;
+                createAudioTurnedOnTimerLocked().startRunningLocked(BatteryStatsImpl.this);
+            }
+        }
+
+        @Override
+        public void noteAudioTurnedOffLocked() {
+            if (mAudioTurnedOn) {
+                mAudioTurnedOn = false;
+                if (mAudioTurnedOnTimer != null) {
+                    mAudioTurnedOnTimer.stopRunningLocked(BatteryStatsImpl.this);
+                }
+            }
+        }
+
+        public StopwatchTimer createVideoTurnedOnTimerLocked() {
+            if (mVideoTurnedOnTimer == null) {
+                mVideoTurnedOnTimer = new StopwatchTimer(Uid.this, VIDEO_TURNED_ON,
+                        null, mUnpluggables);
+            }
+            return mVideoTurnedOnTimer;
+        }
+
+        @Override
+        public void noteVideoTurnedOnLocked() {
+            if (!mVideoTurnedOn) {
+                mVideoTurnedOn = true;
+                createVideoTurnedOnTimerLocked().startRunningLocked(BatteryStatsImpl.this);
+            }
+        }
+
+        @Override
+        public void noteVideoTurnedOffLocked() {
+            if (mVideoTurnedOn) {
+                mVideoTurnedOn = false;
+                if (mVideoTurnedOnTimer != null) {
+                    mVideoTurnedOnTimer.stopRunningLocked(BatteryStatsImpl.this);
+                }
+            }
+        }
+
+        public StopwatchTimer createForegroundActivityTimerLocked() {
+            if (mForegroundActivityTimer == null) {
+                mForegroundActivityTimer = new StopwatchTimer(
+                        Uid.this, FOREGROUND_ACTIVITY, null, mUnpluggables);
+            }
+            return mForegroundActivityTimer;
+        }
+
+        @Override
+        public void noteActivityResumedLocked() {
+            // We always start, since we want multiple foreground PIDs to nest
+            createForegroundActivityTimerLocked().startRunningLocked(BatteryStatsImpl.this);
+        }
+
+        @Override
+        public void noteActivityPausedLocked() {
+            if (mForegroundActivityTimer != null) {
+                mForegroundActivityTimer.stopRunningLocked(BatteryStatsImpl.this);
+            }
+        }
+
+        public BatchTimer createVibratorOnTimerLocked() {
+            if (mVibratorOnTimer == null) {
+                mVibratorOnTimer = new BatchTimer(Uid.this, VIBRATOR_ON,
+                        mUnpluggables, BatteryStatsImpl.this.mOnBatteryInternal);
+            }
+            return mVibratorOnTimer;
+        }
+
+        public void noteVibratorOnLocked(long durationMillis) {
+            createVibratorOnTimerLocked().addDuration(BatteryStatsImpl.this, durationMillis);
+        }
+
+        public void noteVibratorOffLocked() {
+            if (mVibratorOnTimer != null) {
+                mVibratorOnTimer.abortLastDuration(BatteryStatsImpl.this);
+            }
+        }
+
+        @Override
+        public long getWifiRunningTime(long batteryRealtime, int which) {
+            if (mWifiRunningTimer == null) {
+                return 0;
+            }
+            return mWifiRunningTimer.getTotalTimeLocked(batteryRealtime, which);
+        }
+
+        @Override
+        public long getFullWifiLockTime(long batteryRealtime, int which) {
+            if (mFullWifiLockTimer == null) {
+                return 0;
+            }
+            return mFullWifiLockTimer.getTotalTimeLocked(batteryRealtime, which);
+        }
+
+        @Override
+        public long getWifiScanTime(long batteryRealtime, int which) {
+            if (mWifiScanTimer == null) {
+                return 0;
+            }
+            return mWifiScanTimer.getTotalTimeLocked(batteryRealtime, which);
+        }
+
+        @Override
+        public long getWifiBatchedScanTime(int csphBin, long batteryRealtime, int which) {
+            if (csphBin < 0 || csphBin >= NUM_WIFI_BATCHED_SCAN_BINS) return 0;
+            if (mWifiBatchedScanTimer[csphBin] == null) {
+                return 0;
+            }
+            return mWifiBatchedScanTimer[csphBin].getTotalTimeLocked(batteryRealtime, which);
+        }
+
+        @Override
+        public long getWifiMulticastTime(long batteryRealtime, int which) {
+            if (mWifiMulticastTimer == null) {
+                return 0;
+            }
+            return mWifiMulticastTimer.getTotalTimeLocked(batteryRealtime,
+                                                          which);
+        }
+
+        @Override
+        public long getAudioTurnedOnTime(long batteryRealtime, int which) {
+            if (mAudioTurnedOnTimer == null) {
+                return 0;
+            }
+            return mAudioTurnedOnTimer.getTotalTimeLocked(batteryRealtime, which);
+        }
+
+        @Override
+        public long getVideoTurnedOnTime(long batteryRealtime, int which) {
+            if (mVideoTurnedOnTimer == null) {
+                return 0;
+            }
+            return mVideoTurnedOnTimer.getTotalTimeLocked(batteryRealtime, which);
+        }
+
+        @Override
+        public Timer getForegroundActivityTimer() {
+            return mForegroundActivityTimer;
+        }
+
+        @Override
+        public Timer getVibratorOnTimer() {
+            return mVibratorOnTimer;
+        }
+
+        @Override
+        public void noteUserActivityLocked(int type) {
+            if (mUserActivityCounters == null) {
+                initUserActivityLocked();
+            }
+            if (type >= 0 && type < NUM_USER_ACTIVITY_TYPES) {
+                mUserActivityCounters[type].stepAtomic();
+            } else {
+                Slog.w(TAG, "Unknown user activity type " + type + " was specified.",
+                        new Throwable());
+            }
+        }
+
+        @Override
+        public boolean hasUserActivity() {
+            return mUserActivityCounters != null;
+        }
+
+        @Override
+        public int getUserActivityCount(int type, int which) {
+            if (mUserActivityCounters == null) {
+                return 0;
+            }
+            return mUserActivityCounters[type].getCountLocked(which);
+        }
+
+        void makeWifiBatchedScanBin(int i, Parcel in) {
+            if (i < 0 || i >= NUM_WIFI_BATCHED_SCAN_BINS) return;
+
+            ArrayList<StopwatchTimer> collected = mWifiBatchedScanTimers.get(i);
+            if (collected == null) {
+                collected = new ArrayList<StopwatchTimer>();
+                mWifiBatchedScanTimers.put(i, collected);
+            }
+            if (in == null) {
+                mWifiBatchedScanTimer[i] = new StopwatchTimer(this, WIFI_BATCHED_SCAN, collected,
+                        mUnpluggables);
+            } else {
+                mWifiBatchedScanTimer[i] = new StopwatchTimer(this, WIFI_BATCHED_SCAN, collected,
+                        mUnpluggables, in);
+            }
+        }
+
+
+        void initUserActivityLocked() {
+            mUserActivityCounters = new Counter[NUM_USER_ACTIVITY_TYPES];
+            for (int i=0; i<NUM_USER_ACTIVITY_TYPES; i++) {
+                mUserActivityCounters[i] = new Counter(mUnpluggables);
+            }
+        }
+
+        void noteNetworkActivityLocked(int type, long delta) {
+            if (mNetworkActivityCounters == null) {
+                initNetworkActivityLocked();
+            }
+            if (type >= 0 && type < NUM_NETWORK_ACTIVITY_TYPES) {
+                mNetworkActivityCounters[type].addCountLocked(delta);
+            } else {
+                Slog.w(TAG, "Unknown network activity type " + type + " was specified.",
+                        new Throwable());
+            }
+        }
+
+        @Override
+        public boolean hasNetworkActivity() {
+            return mNetworkActivityCounters != null;
+        }
+
+        @Override
+        public long getNetworkActivityCount(int type, int which) {
+            if (mNetworkActivityCounters != null && type >= 0
+                    && type < mNetworkActivityCounters.length) {
+                return mNetworkActivityCounters[type].getCountLocked(which);
+            } else {
+                return 0;
+            }
+        }
+
+        void initNetworkActivityLocked() {
+            mNetworkActivityCounters = new LongSamplingCounter[NUM_NETWORK_ACTIVITY_TYPES];
+            for (int i = 0; i < NUM_NETWORK_ACTIVITY_TYPES; i++) {
+                mNetworkActivityCounters[i] = new LongSamplingCounter(mUnpluggables);
+            }
+        }
+
+        /**
+         * Clear all stats for this uid.  Returns true if the uid is completely
+         * inactive so can be dropped.
+         */
+        boolean reset() {
+            boolean active = false;
+
+            if (mWifiRunningTimer != null) {
+                active |= !mWifiRunningTimer.reset(BatteryStatsImpl.this, false);
+                active |= mWifiRunning;
+            }
+            if (mFullWifiLockTimer != null) {
+                active |= !mFullWifiLockTimer.reset(BatteryStatsImpl.this, false);
+                active |= mFullWifiLockOut;
+            }
+            if (mWifiScanTimer != null) {
+                active |= !mWifiScanTimer.reset(BatteryStatsImpl.this, false);
+                active |= mWifiScanStarted;
+            }
+            if (mWifiBatchedScanTimer != null) {
+                for (int i = 0; i < NUM_WIFI_BATCHED_SCAN_BINS; i++) {
+                    if (mWifiBatchedScanTimer[i] != null) {
+                        active |= !mWifiBatchedScanTimer[i].reset(BatteryStatsImpl.this, false);
+                    }
+                }
+                active |= (mWifiBatchedScanBinStarted != NO_BATCHED_SCAN_STARTED);
+            }
+            if (mWifiMulticastTimer != null) {
+                active |= !mWifiMulticastTimer.reset(BatteryStatsImpl.this, false);
+                active |= mWifiMulticastEnabled;
+            }
+            if (mAudioTurnedOnTimer != null) {
+                active |= !mAudioTurnedOnTimer.reset(BatteryStatsImpl.this, false);
+                active |= mAudioTurnedOn;
+            }
+            if (mVideoTurnedOnTimer != null) {
+                active |= !mVideoTurnedOnTimer.reset(BatteryStatsImpl.this, false);
+                active |= mVideoTurnedOn;
+            }
+            if (mForegroundActivityTimer != null) {
+                active |= !mForegroundActivityTimer.reset(BatteryStatsImpl.this, false);
+            }
+            if (mVibratorOnTimer != null) {
+                if (mVibratorOnTimer.reset(BatteryStatsImpl.this, false)) {
+                    mVibratorOnTimer.detach();
+                    mVibratorOnTimer = null;
+                } else {
+                    active = true;
+                }
+            }
+
+            if (mUserActivityCounters != null) {
+                for (int i=0; i<NUM_USER_ACTIVITY_TYPES; i++) {
+                    mUserActivityCounters[i].reset(false);
+                }
+            }
+
+            if (mNetworkActivityCounters != null) {
+                for (int i = 0; i < NUM_NETWORK_ACTIVITY_TYPES; i++) {
+                    mNetworkActivityCounters[i].reset(false);
+                }
+            }
+
+            if (mWakelockStats.size() > 0) {
+                Iterator<Map.Entry<String, Wakelock>> it = mWakelockStats.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry<String, Wakelock> wakelockEntry = it.next();
+                    Wakelock wl = wakelockEntry.getValue();
+                    if (wl.reset()) {
+                        it.remove();
+                    } else {
+                        active = true;
+                    }
+                }
+            }
+            if (mSensorStats.size() > 0) {
+                Iterator<Map.Entry<Integer, Sensor>> it = mSensorStats.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry<Integer, Sensor> sensorEntry = it.next();
+                    Sensor s = sensorEntry.getValue();
+                    if (s.reset()) {
+                        it.remove();
+                    } else {
+                        active = true;
+                    }
+                }
+            }
+            if (mProcessStats.size() > 0) {
+                Iterator<Map.Entry<String, Proc>> it = mProcessStats.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry<String, Proc> procEntry = it.next();
+                    procEntry.getValue().detach();
+                }
+                mProcessStats.clear();
+            }
+            if (mPids.size() > 0) {
+                for (int i=0; !active && i<mPids.size(); i++) {
+                    Pid pid = mPids.valueAt(i);
+                    if (pid.mWakeStart != 0) {
+                        active = true;
+                    }
+                }
+            }
+            if (mPackageStats.size() > 0) {
+                Iterator<Map.Entry<String, Pkg>> it = mPackageStats.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry<String, Pkg> pkgEntry = it.next();
+                    Pkg p = pkgEntry.getValue();
+                    p.detach();
+                    if (p.mServiceStats.size() > 0) {
+                        Iterator<Map.Entry<String, Pkg.Serv>> it2
+                                = p.mServiceStats.entrySet().iterator();
+                        while (it2.hasNext()) {
+                            Map.Entry<String, Pkg.Serv> servEntry = it2.next();
+                            servEntry.getValue().detach();
+                        }
+                    }
+                }
+                mPackageStats.clear();
+            }
+
+            mPids.clear();
+
+            if (!active) {
+                if (mWifiRunningTimer != null) {
+                    mWifiRunningTimer.detach();
+                }
+                if (mFullWifiLockTimer != null) {
+                    mFullWifiLockTimer.detach();
+                }
+                if (mWifiScanTimer != null) {
+                    mWifiScanTimer.detach();
+                }
+                for (int i = 0; i < NUM_WIFI_BATCHED_SCAN_BINS; i++) {
+                    if (mWifiBatchedScanTimer[i] != null) {
+                        mWifiBatchedScanTimer[i].detach();
+                    }
+                }
+                if (mWifiMulticastTimer != null) {
+                    mWifiMulticastTimer.detach();
+                }
+                if (mAudioTurnedOnTimer != null) {
+                    mAudioTurnedOnTimer.detach();
+                    mAudioTurnedOnTimer = null;
+                }
+                if (mVideoTurnedOnTimer != null) {
+                    mVideoTurnedOnTimer.detach();
+                    mVideoTurnedOnTimer = null;
+                }
+                if (mForegroundActivityTimer != null) {
+                    mForegroundActivityTimer.detach();
+                    mForegroundActivityTimer = null;
+                }
+                if (mUserActivityCounters != null) {
+                    for (int i=0; i<NUM_USER_ACTIVITY_TYPES; i++) {
+                        mUserActivityCounters[i].detach();
+                    }
+                }
+                if (mNetworkActivityCounters != null) {
+                    for (int i = 0; i < NUM_NETWORK_ACTIVITY_TYPES; i++) {
+                        mNetworkActivityCounters[i].detach();
+                    }
+                }
+            }
+
+            return !active;
+        }
+
+        void writeToParcelLocked(Parcel out, long batteryRealtime) {
+            out.writeInt(mWakelockStats.size());
+            for (Map.Entry<String, Uid.Wakelock> wakelockEntry : mWakelockStats.entrySet()) {
+                out.writeString(wakelockEntry.getKey());
+                Uid.Wakelock wakelock = wakelockEntry.getValue();
+                wakelock.writeToParcelLocked(out, batteryRealtime);
+            }
+
+            out.writeInt(mSensorStats.size());
+            for (Map.Entry<Integer, Uid.Sensor> sensorEntry : mSensorStats.entrySet()) {
+                out.writeInt(sensorEntry.getKey());
+                Uid.Sensor sensor = sensorEntry.getValue();
+                sensor.writeToParcelLocked(out, batteryRealtime);
+            }
+
+            out.writeInt(mProcessStats.size());
+            for (Map.Entry<String, Uid.Proc> procEntry : mProcessStats.entrySet()) {
+                out.writeString(procEntry.getKey());
+                Uid.Proc proc = procEntry.getValue();
+                proc.writeToParcelLocked(out);
+            }
+
+            out.writeInt(mPackageStats.size());
+            for (Map.Entry<String, Uid.Pkg> pkgEntry : mPackageStats.entrySet()) {
+                out.writeString(pkgEntry.getKey());
+                Uid.Pkg pkg = pkgEntry.getValue();
+                pkg.writeToParcelLocked(out);
+            }
+
+            if (mWifiRunningTimer != null) {
+                out.writeInt(1);
+                mWifiRunningTimer.writeToParcel(out, batteryRealtime);
+            } else {
+                out.writeInt(0);
+            }
+            if (mFullWifiLockTimer != null) {
+                out.writeInt(1);
+                mFullWifiLockTimer.writeToParcel(out, batteryRealtime);
+            } else {
+                out.writeInt(0);
+            }
+            if (mWifiScanTimer != null) {
+                out.writeInt(1);
+                mWifiScanTimer.writeToParcel(out, batteryRealtime);
+            } else {
+                out.writeInt(0);
+            }
+            for (int i = 0; i < NUM_WIFI_BATCHED_SCAN_BINS; i++) {
+                if (mWifiBatchedScanTimer[i] != null) {
+                    out.writeInt(1);
+                    mWifiBatchedScanTimer[i].writeToParcel(out, batteryRealtime);
+                } else {
+                    out.writeInt(0);
+                }
+            }
+            if (mWifiMulticastTimer != null) {
+                out.writeInt(1);
+                mWifiMulticastTimer.writeToParcel(out, batteryRealtime);
+            } else {
+                out.writeInt(0);
+            }
+            if (mAudioTurnedOnTimer != null) {
+                out.writeInt(1);
+                mAudioTurnedOnTimer.writeToParcel(out, batteryRealtime);
+            } else {
+                out.writeInt(0);
+            }
+            if (mVideoTurnedOnTimer != null) {
+                out.writeInt(1);
+                mVideoTurnedOnTimer.writeToParcel(out, batteryRealtime);
+            } else {
+                out.writeInt(0);
+            }
+            if (mForegroundActivityTimer != null) {
+                out.writeInt(1);
+                mForegroundActivityTimer.writeToParcel(out, batteryRealtime);
+            } else {
+                out.writeInt(0);
+            }
+            if (mVibratorOnTimer != null) {
+                out.writeInt(1);
+                mVibratorOnTimer.writeToParcel(out, batteryRealtime);
+            } else {
+                out.writeInt(0);
+            }
+            if (mUserActivityCounters != null) {
+                out.writeInt(1);
+                for (int i=0; i<NUM_USER_ACTIVITY_TYPES; i++) {
+                    mUserActivityCounters[i].writeToParcel(out);
+                }
+            } else {
+                out.writeInt(0);
+            }
+            if (mNetworkActivityCounters != null) {
+                out.writeInt(1);
+                for (int i = 0; i < NUM_NETWORK_ACTIVITY_TYPES; i++) {
+                    mNetworkActivityCounters[i].writeToParcel(out);
+                }
+            } else {
+                out.writeInt(0);
+            }
+        }
+
+        void readFromParcelLocked(ArrayList<Unpluggable> unpluggables, Parcel in) {
+            int numWakelocks = in.readInt();
+            mWakelockStats.clear();
+            for (int j = 0; j < numWakelocks; j++) {
+                String wakelockName = in.readString();
+                Uid.Wakelock wakelock = new Wakelock();
+                wakelock.readFromParcelLocked(unpluggables, in);
+                // We will just drop some random set of wakelocks if
+                // the previous run of the system was an older version
+                // that didn't impose a limit.
+                mWakelockStats.put(wakelockName, wakelock);
+            }
+
+            int numSensors = in.readInt();
+            mSensorStats.clear();
+            for (int k = 0; k < numSensors; k++) {
+                int sensorNumber = in.readInt();
+                Uid.Sensor sensor = new Sensor(sensorNumber);
+                sensor.readFromParcelLocked(mUnpluggables, in);
+                mSensorStats.put(sensorNumber, sensor);
+            }
+
+            int numProcs = in.readInt();
+            mProcessStats.clear();
+            for (int k = 0; k < numProcs; k++) {
+                String processName = in.readString();
+                Uid.Proc proc = new Proc();
+                proc.readFromParcelLocked(in);
+                mProcessStats.put(processName, proc);
+            }
+
+            int numPkgs = in.readInt();
+            mPackageStats.clear();
+            for (int l = 0; l < numPkgs; l++) {
+                String packageName = in.readString();
+                Uid.Pkg pkg = new Pkg();
+                pkg.readFromParcelLocked(in);
+                mPackageStats.put(packageName, pkg);
+            }
+
+            mWifiRunning = false;
+            if (in.readInt() != 0) {
+                mWifiRunningTimer = new StopwatchTimer(Uid.this, WIFI_RUNNING,
+                        mWifiRunningTimers, mUnpluggables, in);
+            } else {
+                mWifiRunningTimer = null;
+            }
+            mFullWifiLockOut = false;
+            if (in.readInt() != 0) {
+                mFullWifiLockTimer = new StopwatchTimer(Uid.this, FULL_WIFI_LOCK,
+                        mFullWifiLockTimers, mUnpluggables, in);
+            } else {
+                mFullWifiLockTimer = null;
+            }
+            mWifiScanStarted = false;
+            if (in.readInt() != 0) {
+                mWifiScanTimer = new StopwatchTimer(Uid.this, WIFI_SCAN,
+                        mWifiScanTimers, mUnpluggables, in);
+            } else {
+                mWifiScanTimer = null;
+            }
+            mWifiBatchedScanBinStarted = NO_BATCHED_SCAN_STARTED;
+            for (int i = 0; i < NUM_WIFI_BATCHED_SCAN_BINS; i++) {
+                if (in.readInt() != 0) {
+                    makeWifiBatchedScanBin(i, in);
+                } else {
+                    mWifiBatchedScanTimer[i] = null;
+                }
+            }
+            mWifiMulticastEnabled = false;
+            if (in.readInt() != 0) {
+                mWifiMulticastTimer = new StopwatchTimer(Uid.this, WIFI_MULTICAST_ENABLED,
+                        mWifiMulticastTimers, mUnpluggables, in);
+            } else {
+                mWifiMulticastTimer = null;
+            }
+            mAudioTurnedOn = false;
+            if (in.readInt() != 0) {
+                mAudioTurnedOnTimer = new StopwatchTimer(Uid.this, AUDIO_TURNED_ON,
+                        null, mUnpluggables, in);
+            } else {
+                mAudioTurnedOnTimer = null;
+            }
+            mVideoTurnedOn = false;
+            if (in.readInt() != 0) {
+                mVideoTurnedOnTimer = new StopwatchTimer(Uid.this, VIDEO_TURNED_ON,
+                        null, mUnpluggables, in);
+            } else {
+                mVideoTurnedOnTimer = null;
+            }
+            if (in.readInt() != 0) {
+                mForegroundActivityTimer = new StopwatchTimer(
+                        Uid.this, FOREGROUND_ACTIVITY, null, mUnpluggables, in);
+            } else {
+                mForegroundActivityTimer = null;
+            }
+            if (in.readInt() != 0) {
+                mVibratorOnTimer = new BatchTimer(Uid.this, VIBRATOR_ON,
+                        mUnpluggables, BatteryStatsImpl.this.mOnBatteryInternal, in);
+            } else {
+                mVibratorOnTimer = null;
+            }
+            if (in.readInt() != 0) {
+                mUserActivityCounters = new Counter[NUM_USER_ACTIVITY_TYPES];
+                for (int i=0; i<NUM_USER_ACTIVITY_TYPES; i++) {
+                    mUserActivityCounters[i] = new Counter(mUnpluggables, in);
+                }
+            } else {
+                mUserActivityCounters = null;
+            }
+            if (in.readInt() != 0) {
+                mNetworkActivityCounters = new LongSamplingCounter[NUM_NETWORK_ACTIVITY_TYPES];
+                for (int i = 0; i < NUM_NETWORK_ACTIVITY_TYPES; i++) {
+                    mNetworkActivityCounters[i] = new LongSamplingCounter(mUnpluggables, in);
+                }
+            } else {
+                mNetworkActivityCounters = null;
+            }
+        }
+
+        /**
+         * The statistics associated with a particular wake lock.
+         */
+        public final class Wakelock extends BatteryStats.Uid.Wakelock {
+            /**
+             * How long (in ms) this uid has been keeping the device partially awake.
+             */
+            StopwatchTimer mTimerPartial;
+
+            /**
+             * How long (in ms) this uid has been keeping the device fully awake.
+             */
+            StopwatchTimer mTimerFull;
+
+            /**
+             * How long (in ms) this uid has had a window keeping the device awake.
+             */
+            StopwatchTimer mTimerWindow;
+
+            /**
+             * Reads a possibly null Timer from a Parcel.  The timer is associated with the
+             * proper timer pool from the given BatteryStatsImpl object.
+             *
+             * @param in the Parcel to be read from.
+             * return a new Timer, or null.
+             */
+            private StopwatchTimer readTimerFromParcel(int type, ArrayList<StopwatchTimer> pool,
+                    ArrayList<Unpluggable> unpluggables, Parcel in) {
+                if (in.readInt() == 0) {
+                    return null;
+                }
+
+                return new StopwatchTimer(Uid.this, type, pool, unpluggables, in);
+            }
+
+            boolean reset() {
+                boolean wlactive = false;
+                if (mTimerFull != null) {
+                    wlactive |= !mTimerFull.reset(BatteryStatsImpl.this, false);
+                }
+                if (mTimerPartial != null) {
+                    wlactive |= !mTimerPartial.reset(BatteryStatsImpl.this, false);
+                }
+                if (mTimerWindow != null) {
+                    wlactive |= !mTimerWindow.reset(BatteryStatsImpl.this, false);
+                }
+                if (!wlactive) {
+                    if (mTimerFull != null) {
+                        mTimerFull.detach();
+                        mTimerFull = null;
+                    }
+                    if (mTimerPartial != null) {
+                        mTimerPartial.detach();
+                        mTimerPartial = null;
+                    }
+                    if (mTimerWindow != null) {
+                        mTimerWindow.detach();
+                        mTimerWindow = null;
+                    }
+                }
+                return !wlactive;
+            }
+
+            void readFromParcelLocked(ArrayList<Unpluggable> unpluggables, Parcel in) {
+                mTimerPartial = readTimerFromParcel(WAKE_TYPE_PARTIAL,
+                        mPartialTimers, unpluggables, in);
+                mTimerFull = readTimerFromParcel(WAKE_TYPE_FULL,
+                        mFullTimers, unpluggables, in);
+                mTimerWindow = readTimerFromParcel(WAKE_TYPE_WINDOW,
+                        mWindowTimers, unpluggables, in);
+            }
+
+            void writeToParcelLocked(Parcel out, long batteryRealtime) {
+                Timer.writeTimerToParcel(out, mTimerPartial, batteryRealtime);
+                Timer.writeTimerToParcel(out, mTimerFull, batteryRealtime);
+                Timer.writeTimerToParcel(out, mTimerWindow, batteryRealtime);
+            }
+
+            @Override
+            public Timer getWakeTime(int type) {
+                switch (type) {
+                case WAKE_TYPE_FULL: return mTimerFull;
+                case WAKE_TYPE_PARTIAL: return mTimerPartial;
+                case WAKE_TYPE_WINDOW: return mTimerWindow;
+                default: throw new IllegalArgumentException("type = " + type);
+                }
+            }
+        }
+
+        public final class Sensor extends BatteryStats.Uid.Sensor {
+            final int mHandle;
+            StopwatchTimer mTimer;
+
+            public Sensor(int handle) {
+                mHandle = handle;
+            }
+
+            private StopwatchTimer readTimerFromParcel(ArrayList<Unpluggable> unpluggables,
+                    Parcel in) {
+                if (in.readInt() == 0) {
+                    return null;
+                }
+
+                ArrayList<StopwatchTimer> pool = mSensorTimers.get(mHandle);
+                if (pool == null) {
+                    pool = new ArrayList<StopwatchTimer>();
+                    mSensorTimers.put(mHandle, pool);
+                }
+                return new StopwatchTimer(Uid.this, 0, pool, unpluggables, in);
+            }
+
+            boolean reset() {
+                if (mTimer.reset(BatteryStatsImpl.this, true)) {
+                    mTimer = null;
+                    return true;
+                }
+                return false;
+            }
+
+            void readFromParcelLocked(ArrayList<Unpluggable> unpluggables, Parcel in) {
+                mTimer = readTimerFromParcel(unpluggables, in);
+            }
+
+            void writeToParcelLocked(Parcel out, long batteryRealtime) {
+                Timer.writeTimerToParcel(out, mTimer, batteryRealtime);
+            }
+
+            @Override
+            public Timer getSensorTime() {
+                return mTimer;
+            }
+
+            @Override
+            public int getHandle() {
+                return mHandle;
+            }
+        }
+
+        /**
+         * The statistics associated with a particular process.
+         */
+        public final class Proc extends BatteryStats.Uid.Proc implements Unpluggable {
+            /**
+             * Total time (in 1/100 sec) spent executing in user code.
+             */
+            long mUserTime;
+
+            /**
+             * Total time (in 1/100 sec) spent executing in kernel code.
+             */
+            long mSystemTime;
+
+            /**
+             * Amount of time the process was running in the foreground.
+             */
+            long mForegroundTime;
+
+            /**
+             * Number of times the process has been started.
+             */
+            int mStarts;
+
+            /**
+             * The amount of user time loaded from a previous save.
+             */
+            long mLoadedUserTime;
+
+            /**
+             * The amount of system time loaded from a previous save.
+             */
+            long mLoadedSystemTime;
+
+            /**
+             * The amount of foreground time loaded from a previous save.
+             */
+            long mLoadedForegroundTime;
+
+            /**
+             * The number of times the process has started from a previous save.
+             */
+            int mLoadedStarts;
+
+            /**
+             * The amount of user time loaded from the previous run.
+             */
+            long mLastUserTime;
+
+            /**
+             * The amount of system time loaded from the previous run.
+             */
+            long mLastSystemTime;
+
+            /**
+             * The amount of foreground time loaded from the previous run
+             */
+            long mLastForegroundTime;
+
+            /**
+             * The number of times the process has started from the previous run.
+             */
+            int mLastStarts;
+
+            /**
+             * The amount of user time when last unplugged.
+             */
+            long mUnpluggedUserTime;
+
+            /**
+             * The amount of system time when last unplugged.
+             */
+            long mUnpluggedSystemTime;
+
+            /**
+             * The amount of foreground time since unplugged.
+             */
+            long mUnpluggedForegroundTime;
+
+            /**
+             * The number of times the process has started before unplugged.
+             */
+            int mUnpluggedStarts;
+
+            SamplingCounter[] mSpeedBins;
+
+            ArrayList<ExcessivePower> mExcessivePower;
+
+            Proc() {
+                mUnpluggables.add(this);
+                mSpeedBins = new SamplingCounter[getCpuSpeedSteps()];
+            }
+
+            public void unplug(long elapsedRealtime, long batteryUptime, long batteryRealtime) {
+                mUnpluggedUserTime = mUserTime;
+                mUnpluggedSystemTime = mSystemTime;
+                mUnpluggedForegroundTime = mForegroundTime;
+                mUnpluggedStarts = mStarts;
+            }
+
+            public void plug(long elapsedRealtime, long batteryUptime, long batteryRealtime) {
+            }
+
+            void detach() {
+                mUnpluggables.remove(this);
+                for (int i = 0; i < mSpeedBins.length; i++) {
+                    SamplingCounter c = mSpeedBins[i];
+                    if (c != null) {
+                        mUnpluggables.remove(c);
+                        mSpeedBins[i] = null;
+                    }
+                }
+            }
+
+            public int countExcessivePowers() {
+                return mExcessivePower != null ? mExcessivePower.size() : 0;
+            }
+
+            public ExcessivePower getExcessivePower(int i) {
+                if (mExcessivePower != null) {
+                    return mExcessivePower.get(i);
+                }
+                return null;
+            }
+
+            public void addExcessiveWake(long overTime, long usedTime) {
+                if (mExcessivePower == null) {
+                    mExcessivePower = new ArrayList<ExcessivePower>();
+                }
+                ExcessivePower ew = new ExcessivePower();
+                ew.type = ExcessivePower.TYPE_WAKE;
+                ew.overTime = overTime;
+                ew.usedTime = usedTime;
+                mExcessivePower.add(ew);
+            }
+
+            public void addExcessiveCpu(long overTime, long usedTime) {
+                if (mExcessivePower == null) {
+                    mExcessivePower = new ArrayList<ExcessivePower>();
+                }
+                ExcessivePower ew = new ExcessivePower();
+                ew.type = ExcessivePower.TYPE_CPU;
+                ew.overTime = overTime;
+                ew.usedTime = usedTime;
+                mExcessivePower.add(ew);
+            }
+
+            void writeExcessivePowerToParcelLocked(Parcel out) {
+                if (mExcessivePower == null) {
+                    out.writeInt(0);
+                    return;
+                }
+
+                final int N = mExcessivePower.size();
+                out.writeInt(N);
+                for (int i=0; i<N; i++) {
+                    ExcessivePower ew = mExcessivePower.get(i);
+                    out.writeInt(ew.type);
+                    out.writeLong(ew.overTime);
+                    out.writeLong(ew.usedTime);
+                }
+            }
+
+            boolean readExcessivePowerFromParcelLocked(Parcel in) {
+                final int N = in.readInt();
+                if (N == 0) {
+                    mExcessivePower = null;
+                    return true;
+                }
+
+                if (N > 10000) {
+                    Slog.w(TAG, "File corrupt: too many excessive power entries " + N);
+                    return false;
+                }
+                
+                mExcessivePower = new ArrayList<ExcessivePower>();
+                for (int i=0; i<N; i++) {
+                    ExcessivePower ew = new ExcessivePower();
+                    ew.type = in.readInt();
+                    ew.overTime = i/*
+
+ * Copyright (C) 2011 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.android.ex.chips;
+
+import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipDescription;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.os.Parcelable;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.text.method.QwertyKeyListener;
+import android.text.style.ImageSpan;
+import android.text.util.Rfc822Token;
+import android.text.util.Rfc822Tokenizer;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.ActionMode;
+import android.view.ActionMode.Callback;
+import android.view.DragEvent;
+import android.view.GestureDetector;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewParent;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.Filterable;
+import android.widge

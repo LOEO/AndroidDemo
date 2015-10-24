@@ -1,0 +1,518 @@
+if('function' !== typeof RegExp.escape) {  
+    RegExp.escape = function(s) {  
+        if('string' !== typeof s) {  
+            return s;  
+        }  
+        // Note: if pasting from forum, precede ]/\ with backslash manually  
+        return s.replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');  
+    }; // eo function escape  
+}  
+  
+// create namespace  
+Ext.ns('Ext.ux.form');  
+   
+/** 
+ * 
+ * @class Ext.ux.form.LovCombo 
+ * @extends Ext.form.ComboBox 
+ */  
+Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {  
+  
+    // {{{  
+    // configuration options  
+    /** 
+     * @cfg {String} checkField name of field used to store checked state. 
+     * It is automatically added to existing fields. 
+     * Change it only if it collides with your normal field. 
+     */  
+     checkField:'checked'  
+  
+    /** 
+     * @cfg {String} separator separator to use between values and texts 
+     */  
+    ,separator:','  
+  
+    /** 
+     * @cfg {String/Array} tpl Template for items.  
+     * Change it only if you know what you are doing. 
+     */  
+    // }}}  
+    // {{{  
+    ,initComponent:function() {  
+          
+        // template with checkbox  
+        if(!this.tpl) {  
+            this.tpl =   
+                 '<tpl for=".">'  
+                +'<div class="x-combo-list-item">'  
+                +'<img src="' + Ext.BLANK_IMAGE_URL + '" '  
+                +'class="ux-lovcombo-icon ux-lovcombo-icon-'  
+                +'{[values.' + this.checkField + '?"checked":"unchecked"' + ']}">'  
+                +'<div class="ux-lovcombo-item-text">{' + (this.displayField || 'text' )+ '}</div>'  
+                +'</div>'  
+                +'</tpl>'  
+            ;  
+        }  
+   
+        // call parent  
+        Ext.ux.form.LovCombo.superclass.initComponent.apply(this, arguments);  
+  
+        // install internal event handlers  
+        this.on({  
+             scope:this  
+            ,beforequery:this.onBeforeQuery  
+            ,blur:this.onRealBlur  
+        });  
+  
+        // remove selection from input field  
+        this.onLoad = this.onLoad.createSequence(function() {  
+            if(this.el) {  
+                var v = this.el.dom.value;  
+                this.el.dom.value = '';  
+                this.el.dom.value = v;  
+            }  
+        });  
+   
+    } // e/o function initComponent  
+    // }}}  
+    // {{{  
+    /** 
+     * Disables default tab key bahavior 
+     * @private 
+     */  
+    ,initEvents:function() {  
+        Ext.ux.form.LovCombo.superclass.initEvents.apply(this, arguments);  
+  
+        // disable default tab handling - does no good  
+        this.keyNav.tab = false;  
+  
+    } // eo function initEvents  
+    // }}}  
+    // {{{  
+    /** 
+     * clears value 
+     */  
+    ,clearValue:function() {  
+        this.value = '';  
+        this.setRawValue(this.value);  
+        this.store.clearFilter();  
+        this.store.each(function(r) {  
+            r.set(this.checkField, false);  
+        }, this);  
+        if(this.hiddenField) {  
+            this.hiddenField.value = '';  
+        }  
+        this.applyEmptyText();  
+    } // eo function clearValue  
+    // }}}  
+    // {{{  
+    /** 
+     * @return {String} separator (plus space) separated list of selected displayFields 
+     * @private 
+     */  
+    ,getCheckedDisplay:function() {  
+        var re = new RegExp(this.separator, "g");  
+        return this.getCheckedValue(this.displayField).replace(re, this.separator + ' ');  
+    } // eo function getCheckedDisplay  
+    // }}}  
+    // {{{  
+    /** 
+     * @return {String} separator separated list of selected valueFields 
+     * @private 
+     */  
+    ,getCheckedValue:function(field) {  
+        field = field || this.valueField;  
+        var c = [];  
+  
+        // store may be filtered so get all records  
+        var snapshot = this.store.snapshot || this.store.data;  
+  
+        snapshot.each(function(r) {  
+            if(r.get(this.checkField)) {  
+                c.push(r.get(field));  
+            }  
+        }, this);  
+  
+        return c.join(this.separator);  
+    } // eo function getCheckedValue  
+    // }}}  
+    // {{{  
+    /** 
+     * beforequery event handler - handles multiple selections 
+     * @param {Object} qe query event 
+     * @private 
+     */  
+    ,onBeforeQuery:function(qe) {  
+        qe.query = qe.query.replace(new RegExp(this.getCheckedDisplay() + '[ ' + this.separator + ']*'), '');  
+    } // eo function onBeforeQuery  
+    // }}}  
+    // {{{  
+    /** 
+     * blur event handler - runs only when real blur event is fired 
+     */  
+    ,onRealBlur:function() {  
+        this.list.hide();  
+        var rv = this.getRawValue();  
+        var rva = rv.split(new RegExp(RegExp.escape(this.separator) + ' *'));  
+        var va = [];  
+        var snapshot = this.store.snapshot || this.store.data;  
+  
+        // iterate through raw values and records and check/uncheck items  
+        Ext.each(rva, function(v) {  
+            snapshot.each(function(r) {  
+                if(v === r.get(this.displayField)) {  
+                    va.push(r.get(this.valueField));  
+                }  
+            }, this);  
+        }, this);  
+        this.setValue(va.join(this.separator));  
+        this.store.clearFilter();  
+    } // eo function onRealBlur  
+    // }}}  
+    // {{{  
+    /** 
+     * Combo's onSelect override 
+     * @private 
+     * @param {Ext.data.Record} record record that has been selected in the list 
+     * @param {Number} index index of selected (clicked) record 
+     */  
+    ,onSelect:function(record, index) {  
+        if(this.fireEvent('beforeselect', this, record, index) !== false){  
+  
+            // toggle checked field  
+            record.set(this.checkField, !record.get(this.checkField));  
+  
+            // display full list  
+            if(this.store.isFiltered()) {  
+                this.doQuery(this.allQuery);  
+            }  
+  
+            // set (update) value and fire event  
+            this.setValue(this.getCheckedValue());  
+            this.fireEvent('select', this, record, index);  
+        }  
+    } // eo function onSelect  
+    // }}}  
+    // {{{  
+    /** 
+     * Sets the value of the LovCombo 
+     * @param {Mixed} v value 
+     */  
+    ,setValue:function(v) {  
+        if(v) {  
+            v = '' + v;  
+            if(this.valueField) {  
+                this.store.clearFilter();  
+                this.store.each(function(r) {  
+                    var checked = !(!v.match(  
+                         '(^|' + this.separator + ')' + RegExp.escape(r.get(this.valueField))  
+                        +'(' + this.separator + '|$)'))  
+                    ;  
+  
+                    r.set(this.checkField, checked);  
+                }, this);  
+                this.value = this.getCheckedValue();  
+                this.setRawValue(this.getCheckedDisplay());  
+                if(this.hiddenField) {  
+                    this.hiddenField.value = this.value;  
+                }  
+            }  
+            else {  
+                this.value = v;  
+                this.setRawValue(v);  
+                if(this.hiddenField) {  
+                    this.hiddenField.value = v;  
+                }  
+            }  
+            if(this.el) {  
+                this.el.removeClass(this.emptyClass);  
+            }  
+        }  
+        else {  
+            this.clearValue();  
+        }  
+    } // eo function setValue  
+    // }}}  
+    // {{{  
+    /** 
+     * Selects all items 
+     */  
+    ,selectAll:function() {  
+        this.store.each(function(record){  
+            // toggle checked field  
+            record.set(this.checkField, true);  
+        }, this);  
+  
+        //display full list  
+        this.doQuery(this.allQuery);  
+        this.setValue(this.getCheckedValue());  
+    } // eo full selectAll  
+    // }}}  
+    // {{{  
+    /** 
+     * Deselects all items. Synonym for clearValue 
+     */  
+    ,deselectAll:function() {  
+        this.clearValue();  
+    } // eo full deselectAll   
+    // }}}  
+    // ‰øÆÊ≠£ : ÂΩìÂ§öÈÄâÊéß‰ª∂ÊîæÂà∞grid‰∏≠Êó∂Ôºågrideditor‰ºöË∞ÉÁî®combobox‰∏≠ÁöÑËøô‰∏™ÊñπÊ≥ï„ÄÇÂ∞ÜÈÄâ‰∏≠ÁöÑÊòæÁ§∫ÂÄº‰º†ÂÖ•Âà∞setvalue‰∏≠ÔºåÂØºËá¥ÈÄâÊã©‰∏¢Â§±„ÄÇ    
+    ,assertValue : function(){    
+        var val = this.getRawValue(),    
+            rec,arr_rec,i=0;    
+        // ÂàÜÁ¶ªvalue‰∏∫Êï∞ÁªÑÔºåÂæ™ÁéØÂèñrec    
+        var arr_val = val.split(this.separator);    
+        var arr_value = this.value.split(this.separator);    
+        for(;i<arr_val.length;i++){    
+            if(this.valueField && Ext.isDefined(arr_value[i])){    
+                rec = this.findRecord(this.valueField, arr_value[i]);    
+            }    
+            if(!rec || rec.get(this.displayField) != arr_val[i].trim()){    
+                rec = this.findRecord(this.displayField, arr_val[i].trim());    
+            }    
+            if(rec && !arr_rec){    
+                arr_rec = [];    
+            }    
+            if(rec){    
+                arr_rec.push(rec);    
+            }    
+        }    
+        if(!arr_rec && this.forceSelection){    
+            if(val.length > 0 && val != this.emptyText){    
+                this.el.dom.value = Ext.value(this.lastSelectionText, '');    
+                this.applyEmptyText();    
+            }else{    
+                this.clearValue();    
+            }    
+        }else{    
+            if(arr_rec && this.valueField){    
+                // onSelect may have already set the value and by doing so    
+                // set the display field properly.  Let's not wipe out the    
+                // valueField here by just sending the displayField.    
+                if (this.value == val){    
+                    return;    
+                }    
+                i = 0;    
+                val = "";    
+                var ival;    
+                for(;i<arr_rec.length;i++){    
+                    ival = arr_rec[i].get(this.valueField);    
+                    if(!ival){    
+                        ival = arr_rec[i].get(this.displayField);    
+                    }    
+                    if(i ==0 ){    
+                        val = ival;    
+                    }else{    
+                        val = val+","+ival;    
+                    }    
+                }    
+            }    
+            this.setValue(val);    
+        }    
+    }  
+  
+}); // eo extend  
+   
+// register xtype  
+Ext.reg('lovcombo', Ext.ux.form.LovCombo);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    // vim: ts=4:sw=4:nu:fdc=4:nospell
+/*global Ext */
+/**
+ * @class Ext.ux.form.ThemeCombo
+ * @extends Ext.form.ComboBox
+ *
+ * Combo pre-configured for themes selection. Keeps state if a provider is present.
+ * 
+ * @author      Ing. Jozef Sak√°lo≈° 
+ * @copyright   (c) 2008, by Ing. Jozef Sak√°lo≈°
+ * @version     1.1
+ * @date        30. January 2008
+ * @revision    $Id: Ext.ux.form.ThemeCombo.js 589 2009-02-21 23:30:18Z jozo $
+ *
+ * @license Ext.ux.form.ThemeCombo is licensed under the terms of
+ * the Open Source LGPL 3.0 license.  Commercial use is permitted to the extent
+ * that the code/component(s) do NOT become part of another Open Source or Commercially
+ * licensed development library or toolkit without explicit permission.
+ * 
+ * <p>License details: <a href="http://www.gnu.org/licenses/lgpl.html"
+ * target="_blank">http://www.gnu.org/licenses/lgpl.html</a></p>
+ *
+ * @demo     http://extjs.eu
+ * @forum    25564
+ *
+ * @donate
+ * <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+ * <input type="hidden" name="cmd" value="_s-xclick">
+ * <input type="hidden" name="hosted_button_id" value="3430419">
+ * <input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" 
+ * border="0" name="submit" alt="PayPal - The safer, easier way to pay online.">
+ * <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+ * </form>
+ */
+
+Ext.ns('Ext.ux.form');
+
+/**
+ * Creates new ThemeCombo
+ * @constructor
+ * @param {Object} config A config object
+ */
+Ext.ux.form.ThemeCombo = Ext.extend(Ext.form.ComboBox, {
+	// configurables
+	 themeBlueText: 'Ext Blue Theme'
+	,themeGrayText: 'Gray Theme'
+	,themeBlackText: 'Black Theme'
+	,themeOliveText: 'Olive Theme'
+	,themePurpleText: 'Purple Theme'
+	,themeDarkGrayText: 'Dark Gray Theme'
+	,themeSlateText: 'Slate Theme'
+	,themeVistaText: 'Vista Theme'
+	,themePeppermintText: 'Peppermint Theme'
+	,themePinkText: 'Pink Theme'
+	,themeChocolateText: 'Chocolate Theme'
+	,themeGreenText: 'Green Theme'
+	,themeIndigoText: 'Indigo Theme'
+	,themeMidnightText: 'Midnight Theme'
+	,themeSilverCherryText: 'Silver Cherry Theme'
+	,themeSlicknessText: 'Slickness Theme'
+	,themeVar:'theme'
+	,selectThemeText: 'Select Theme'
+	,themeGrayExtndText:'Gray-Extended Theme'
+	,lazyRender:true
+	,lazyInit:true
+	,cssPath:'../ext/resources/css/' // mind the trailing slash
+
+	// {{{
+	,initComponent:function() {
+
+		var config = {
+			store: new Ext.data.SimpleStore({
+				fields: ['themeFile', {name:'themeName', type:'string'}]
+				,data: [
+					 ['xtheme-default.css', this.themeBlueText]
+					,['xtheme-gray.css', this.themeGrayText]
+					,['xtheme-darkgray.css', this.themeDarkGrayText]
+					,['xtheme-black.css', this.themeBlackText]
+					,['xtheme-olive.css', this.themeOliveText]
+					,['xtheme-purple.css', this.themePurpleText]
+					,['xtheme-slate.css', this.themeSlateText]
+					,['xtheme-peppermint.css', this.themePeppermintText]
+					,['xtheme-chocolate.css', this.themeChocolateText]
+					,['xtheme-green.css', this.themeGreenText]
+					,['xtheme-indigo.css', this.themeIndigoText]
+					,['xtheme-midnight.css', this.themeMidnightText]
+					,['xtheme-silverCherry.css', this.themeSilverCherryText]
+					,['xtheme-slickness.css', this.themeSlicknessText]
+					,['xtheme-gray-extend.css', this.themeGrayExtndText]
+//					,['xtheme-pink.css', this.themePinkText]
+				]
+			})
+			,valueField: 'themeFile'
+			,displayField: 'themeName'
+			,triggerAction:'all'
+			,mode: 'local'
+			,forceSelection:true
+			,editable:false
+			,fieldLabel: this.selectThemeText
+		}; // eo config object
+
+		// apply config
+        Ext.apply(this, Ext.apply(this.initialConfig, config));
+
+		this.store.sort('themeName');
+
+		// call parent
+		Ext.ux.form.ThemeCombo.superclass.initComponent.apply(this, arguments);
+
+		if(false !== this.stateful && Ext.state.Manager.getProvider()) {
+			this.setValue(Ext.state.Manager.get(this.themeVar) || 'xtheme-default.css');
+		}
+		else {
+			this.setValue('xtheme-default.css');
+		}
+
+	} // end of function initComponent
+	// }}}
+	// {{{
+	,setValue:function(val) {
+		Ext.ux.form.ThemeCombo.superclass.setValue.apply(this, arguments);
+
+		// set theme
+		Ext.util.CSS.swapStyleSheet(this.themeVar, this.cssPath + val);
+
+		if(false !== this.stateful && Ext.state.Manager.getProvider()) {
+			Ext.state.Manager.set(this.themeVar, val);
+		}
+	} // eo function setValue
+	// }}}
+
+}); // end of extend
+
+// register xtype
+Ext.reg('themecombo', Ext.ux.form.ThemeCombo);
+
+// eof
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        INDX( 	 Û!R           (     Ë           –  o   –        ÎF    h X     ﬁF    ∆6Ç¥h–∆6Ç¥h–∆6Ç¥h–∆6Ç¥h–        ”              b a s e f o r m . j s ÏF    p \     ﬁF    ÷]Ç¥h–ÁÑÇ¥h–ÁÑÇ¥h–÷]Ç¥h– p      Dd              c o l u m n L o c k . j s j s ﬂF    p `     ﬁF    Ω≈¥h–ÕÏ¥h–ÕÏ¥h–Ω≈¥h–       ‹              C o l u m n N o d e U I . j s ﬂF    h X     ﬁF    Ω≈¥h–ÕÏ¥h–ÕÏ¥h–Ω≈¥h–       ‹              C O L U M N ~ 1 . J S ÏF    h X    ﬁF    ÷]Ç¥h–ÁÑÇ¥h–ÁÑÇ¥h–÷]Ç¥h– p      Dd              C O L U M N ~ 2 . J S ÌF    ` P     ﬁF    ˜´Ç¥h–”Ç¥h–”Ç¥h–˜´Ç¥h– @      ®0              c o m m . j s ‡F    Ä p     ﬁF    ﬁÄ¥h–Ó:Ä¥h–Ó:Ä¥h–ﬁÄ¥h– 0      *              E x t . u x . f o r m . L o v C o m b o . j s ·F    à t     ﬁF    Ó:Ä¥h–ˇaÄ¥h–ˇaÄ¥h–Ó:Ä¥h–                      E x t . u x . f o r m . T h e m e C o m b o . j s     ‚F    p ^     ﬁF    âÄ¥h– ∞Ä¥h– ∞Ä¥h–âÄ¥h– @     Æ4              E x t . u x . u t i l . j s  ‡F    h X     ﬁF    ﬁÄ¥h–Ó:Ä¥h–Ó:Ä¥h–ﬁÄ¥h– 0      *              E X T U X F ~ 1 . J S ·F    h X     ﬁF    Ó:Ä¥h–ˇaÄ¥h–ˇaÄ¥h–Ó:Ä¥h–                      E X T U X F ~ 2 . J S ‚F    h X     ﬁF    âÄ¥h– ∞Ä¥h– ∞Ä¥h–âÄ¥h– @      Æ4              E X T U X U ~ 1 . J S „F    x f     ﬁF     ∞Ä¥h–1◊Ä¥h–1◊Ä¥h– ∞Ä¥h–        ñ              F i l e U p l o a d F i e l d . j s   „F    h X     ﬁF     ∞Ä¥h 1◊Ä¥h–1◊Ä¥h– ∞Ä¥h–        ñ              F I L E U P ~ 1 . J S ‰F    p Z     ﬁF    A˛Ä¥h–A˛Ä¥h–A˛Ä¥h–A˛Ä¥h–                     F o r m U t i l s . j s       ‰F    h X     ﬁF    A˛Ä¥h–A˛Ä¥h–A˛Ä¥h–A˛Ä¥h–                     F O R M U T ~ 1 . J S ÓF    h X     ﬁF    ”Ç¥h–˙Ç¥h–˙Ç¥h–”Ç¥h–Ä       y               f u n c t i o n . j s ÔF    p Z     ﬁF    ˙Ç¥h–)!É¥h–)!É¥h–˙Ç¥h–                      i n t e r f a c e . j s t t o              ﬁF    ˙Ç¥h–)!É¥h–)!É¥h–˙Ç¥h–                      I N T E R F ~ 1 . J S F    h T     ﬁF    |‰É¥h–|‰É¥h–|‰É¥h–|‰É¥h– `     lQ             	j q u e r y . j s d B ÒF    ` P     ﬁF    çÑ¥h–ù2Ñ¥h–ù2Ñ¥h–çÑ¥h–        ì              m a i n . j s ÚF    h T     ﬁF    ù2Ñ¥h–ÆYÑ¥h–ÆYÑ¥h–ù2Ñ¥h–                      	o b j e c t . j s d B ÂF    x h     ﬁF    R%Å¥h–R%Å¥h–R%Å¥h–R%Å¥h–(       $               O n l y U s e A d d B u t t  n . j s ÂF    h X     ﬁF    R%Å¥h–R%Å¥h–R%Å¥h–R%Å¥h–(       $               O N L Y U S ~ 1 . J S ÛF    p \     ﬁF    æÄÑ¥h–æÄÑ¥h–æÄÑ¥h–æÄÑ¥h–                      s h o w O b j e c t . j s j s ÛF    h X     ﬁF    æÄÑ¥h–æÄÑ¥h–æÄÑ¥h–æÄÑ¥h–                      S H O W O B ~ 1 . J S ÊF    p `     ﬁF    bLÅ¥h–bLÅ¥h–bLÅ¥h–bLÅ¥h–       Î              T a b C l o s e M e n u . j s ÊF    h X     ﬁF    bLÅ¥h–bLÅ¥h–bLÅ¥h–bLÅ¥h–       Î             T A B C L O ~ 1 . J S ÁF    x f     ﬁF    ssÅ¥h–ÉöÅ¥h–ÉöÅ¥h–ssÅ¥h– 0      -               T r e e C h e c k N o d e U I . j s   ÁF    h X     ﬁF    ssÅ¥h–ÉöÅ¥h–ÉöÅ¥h–ssÅ¥h– 0      -               T R E E C H ~ 1 . J S ÙF    h V     ﬁF    œßÑ¥h–ﬂŒÑ¥h–ﬂŒÑ¥h–œßÑ¥h–       ê              
+t r _ s y d q . j s   ËF    h V     ﬁF    ÉöÅ¥h–î¡Å¥h–î¡Å¥h–ÉöÅ¥h–        ,              
+W e b P a g e . j s   ÈF    x d     ﬁF    î¡Å¥h–•ËÅ¥h–•ËÅ¥h î¡Å¥h–       `              X M L H t t p R e q u e s t . j s     ÍF    x h     ﬁF    µÇ¥h–µÇ¥h–µÇ¥h–µÇ¥h–       `              X M L H t t p R e q u e s t _ 1 . j s ÈF    h X     ﬁF    î¡Å¥h–•ËÅ¥h–•ËÅ¥h–î¡Å¥h–       `              X M L H T T ~ 1 . J S ÍF    h X     ﬁF    µÇ¥h–µÇ¥h–µÇ¥h–µÇ¥h–       `              X M L H T T ~ 2 . J S                                                                                                              /*!
+ * Ext JS Library 3.2.1
+ * Copyright(c) 2006-2010 Ext JS, Inc.
+ * licensing@extjs.com
+ * http://www.extjs.com/license
+ */
+Ext.ns('Ext.ux.form');
+
+/**
+ * @class Ext.ux.form.FileUploadField
+ * @extends Ext.form.TextField
+ * Creates a file upload field.
+ * @xtype fileuploadfield
+ */
+Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
+    /**
+     * @cfg {String} buttonText The button text to display on the upload button (defaults to
+     * 'Browse...').  Note that if you supply a value for {@link #buttonCfg}, the buttonCfg.text
+     * value will be used instead if available.
+     */
+    buttonText: 'Browse...',
+    /**
+     * @cfg {Boolean} buttonOnly True to display the file upload field as a button with no visible
+     * text field (defaults to false).  If true, all inherited TextField members will still be available.
+     */
+    buttonOnly: false,
+    /**
+     * @cfg {Number} buttonOffset The number of pixels of space reserved between the button and the text field
+     * (defaults to 3).  Note that this only applies if {@link #buttonOnly} = false.
+     */
+    buttonOffset: 3,
+    /**
+     * @cfg {Object} buttonCfg A standard {@link Ext.Button} config object.
+     */
+
+    // private
+    readOnly: true,
+
+    /**
+     * @hide
+     * @method autoSize
+     */
+    autoSize: Ext.emptyFn,
+
+    // private
+    initComponent: function(){
+        Ext.ux.form.FileUploadField.superclass.initComponent.call(this);
+
+        this.addEvents(
+            /**
+             * @event fileselected
+             * Fires when the underlying file input field's value has changed from the user
+             * selecting a new file from the system file selection dialog.
+             * @param {Ext.ux.form.FileUploadField} this
+             * @param {String} value The file value returned by the underlying file input field
+             */
+            'fileselected'
+        );
+    },
+
+    // private
+    onRender : function(ct, position){
+        Ext.ux.form.FileUploadField.superclass.on

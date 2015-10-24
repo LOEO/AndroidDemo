@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="match_parent"  android:layout_width="wrap_content">
+    <PreferenceCategory android:title="基本信息">
+        <EditTextPreference android:title="ip" android:key="ip" android:summary="ip地址"/>
+        <EditTextPreference android:title="port" android:key="port" android:summary="端口号"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="网络">
+        <CheckBoxPreference android:title="移动网络" android:key="net" android:summary="移动网络"/>
+        <CheckBoxPreference android:title="wifi" android:key="wifi" android:summary="wifi"/>
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

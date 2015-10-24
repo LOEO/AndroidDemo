@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:drawable="@drawable/ic_launcher" android:duration="500"></item>
+<item android:drawable="@drawable/gradient_line" android:duration="500"></item>
+<item android:drawable="@drawable/shape" android:duration="500"></item>
+</animation-list>
